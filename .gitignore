@@ -15,3 +15,7 @@ media
 
 # Environments 
 .env 
+
+.venv
+
+.idea
