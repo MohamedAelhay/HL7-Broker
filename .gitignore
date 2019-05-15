@@ -12,3 +12,6 @@ media
 *.py 
 *.py[cod]
 *$py.class
+
+# Environments 
+.env 
