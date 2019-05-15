@@ -18,3 +18,9 @@ media
 .venv
 
 .idea
+
+
+#virtualenv
+hl7/
+
+.idea/
