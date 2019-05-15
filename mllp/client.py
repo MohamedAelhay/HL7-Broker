@@ -2,11 +2,7 @@ import socket
 
 from hl7apy.parser import parse_message
 
-def query(host, port):
-    msg = \
-        'MSH|^~\&|REC APP|REC FAC|SEND APP|SEND FAC|20110708163513||QBP^Q22^QBP_Q21|111069|D|2.5|||||ITA||EN\r' \
-        'QPD|IHE PDQ Query|111069|@PID.5.2^SMITH||||\r' \
-        'RCP|I|'
+def send_message(host, port , msg):
     # establish the connection
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -21,6 +17,11 @@ def query(host, port):
 
 
 if __name__ == '__main__':
-    res = query('localhost', 6661)
+    msg = \
+        'MSH|^~\&|REC APP|REC FAC|SEND APP|SEND FAC|20110708163513||QBP^Q22^QBP_Q21|111069|D|2.5|||||ITA||EN\r' \
+        'QPD|IHE PDQ Query|111069|@PID.5.2^SMITH||||\r' \
+        'RCP|I|'
+
+    res = send_message('localhost', 6661 , msg)
     print("Received response: ")
     print(repr(res))
