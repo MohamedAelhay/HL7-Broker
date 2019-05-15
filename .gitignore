@@ -8,8 +8,7 @@ media
 # Backup files # 
 *.bak 
 
-# Python # 
-*.py 
+# Python #
 *.py[cod]
 *$py.class
 
