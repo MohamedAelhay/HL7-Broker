@@ -76,9 +76,9 @@ WSGI_APPLICATION = 'HL7Broker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',  # databse name
-        'USER': '',
-        'PASSWORD': '',
+        'NAME': os.environ.get('DATABASE_NAME', ''),
+        'USER': os.environ.get('DATABASE_USER', ''),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
         'HOST': 'localhost',  # default host
         'PORT': '3306'  # default port
     }
