@@ -15,17 +15,19 @@ class Log(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE) # TODO: fk on auth_user
 
 class TriggerEvent(models.Model):
-    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=50)
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
 
 class Scope(models.Model):
-    name = models.CharField(max_length=50)
+    code = models.CharField(max_length=50)
     trigger_event = models.ForeignKey(TriggerEvent, on_delete=models.CASCADE)
 
 class Segment(models.Model):
+    code = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     scope = models.ForeignKey(Scope, on_delete=models.CASCADE)
 
 class Field(models.Model):
+    code = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     segment = models.ForeignKey(Segment, on_delete=models.CASCADE)
