@@ -23,4 +23,13 @@ class ErrorHandler(AbstractErrorHandler):
             print("Unsupported Message Type")
         else:
             # Return custom response for general errors
+            print(self.exc)
             print("General Error")
+
+
+def handlers():
+    return {
+        'QBP^Q22^QBP_Q21': (PDQHandler,),
+        'ADT^A01^ADT_A01': (PDQHandler,),
+        'ERR': (ErrorHandler,)
+    }
