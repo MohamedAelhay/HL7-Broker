@@ -6,12 +6,12 @@ __pycache__
 media
 
 # Backup files # 
-*.bak 
-
-# Python # 
-*.py 
-*.py[cod]
-*$py.class
+*.bak
 
 # Environments 
-.env 
+.env
+
+#virtualenv
+hl7/
+
+.idea/
