@@ -8,6 +8,8 @@ class Client(models.Model):
 class Device(models.Model):
     name = models.CharField(max_length=200)
     version = models.FloatField()
+    ip = models.CharField(max_length=15)
+    port = models.CharField(max_length=4)
 
 class Log(models.Model):
     response =  models.CharField(max_length=200)

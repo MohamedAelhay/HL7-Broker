@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from hl7apy.mllp import AbstractHandler, AbstractErrorHandler, UnsupportedMessageType
+from hl7apy.core import Message
 from hl7apy.parser import parse_message
 from hl7apy.core import Message
 
@@ -19,7 +20,9 @@ class PDQHandler(AbstractHandler):
         res.qpd = "QPD|Q21^Get Person Demographics^HL7nnn|111069|112234^^^GOOD HEALTH HOSPITAL|^^^ GOOD HEALTH HOSPITAL~^^^SOUTH LAB|\r"
         res.pid = "PID|||112234^^^GOOD HEALTH HOSPITAL~98223^^^SOUTH LAB||Everyman^Adam||19600614|M||C|2101 Webster # 106^^Oakland^CA^94612|\r"
         res.qri = "QRI|100|"
-
+        
+        print(res.children)
+        res.to_mllp()
         return res.to_mllp()
 
 
