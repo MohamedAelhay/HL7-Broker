@@ -1,0 +1,185 @@
+[{
+        "model": "middleware.device",
+        "fields": {
+            "name": "ultrasonic",
+            "version": "2.5"
+        }
+    },
+    {
+        "model": "middleware.triggerevent",
+        "fields": {
+            "code": "ADT",
+            "device": 1
+        }
+    },
+    {
+        "model": "middleware.scope",
+        "fields": {
+            "code": "A01",
+            "trigger_event": 1
+        }
+    },
+    {
+        "model": "middleware.scope",
+        "fields": {
+            "code": "A02",
+            "trigger_event": 1
+        }
+    },
+    {
+        "model": "middleware.segment",
+        "fields": {
+            "code": "MSH",
+            "name": "message_header",
+            "scope": 1
+        }
+    },
+    {
+        "model": "middleware.segment",
+        "fields": {
+            "code": "PID",
+            "name": "patient",
+            "scope": 1
+        }
+    }, {
+        "model": "middleware.segment",
+        "fields": {
+            "code": "PV1",
+            "name": "visit",
+            "scope": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "1",
+            "name": "field_seprator",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "2",
+            "name": "encoding_characters",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "3",
+            "name": "sending_application",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "5",
+            "name": "recieving_application",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "7",
+            "name": "datetime_of_messsage",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "9",
+            "name": "message_type",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "12",
+            "name": "version_id",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "16",
+            "name": "application_acknowledgment_type",
+            "segment": 1
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "1",
+            "name": "patient_id",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "7",
+            "name": "date_of_birth",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "8",
+            "name": "gender",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "13",
+            "name": "home_phone_number",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "5.2",
+            "name": "first_name",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "5.1",
+            "name": "last_name",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "11",
+            "name": "address",
+            "segment": 2
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "1",
+            "name": "visit_id",
+            "segment": 3
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "5",
+            "name": "preadmit_number",
+            "segment": 3
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "9.2",
+            "name": "consulting_doctor_first_name",
+            "segment": 3
+        }
+    }, {
+        "model": "middleware.field",
+        "fields": {
+            "code": "9.1",
+            "name": "consulting_doctor_last_name",
+            "segment": 3
+        }
+    }
+]
