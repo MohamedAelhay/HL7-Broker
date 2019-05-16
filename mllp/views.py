@@ -21,8 +21,7 @@ class PDQHandler(AbstractHandler):
         res.pid = "PID|||112234^^^GOOD HEALTH HOSPITAL~98223^^^SOUTH LAB||Everyman^Adam||19600614|M||C|2101 Webster # 106^^Oakland^CA^94612|\r"
         res.qri = "QRI|100|"
         
-        print(res.children)
-        res.to_mllp()
+        print(res.to_mllp())
         return res.to_mllp()
 
 

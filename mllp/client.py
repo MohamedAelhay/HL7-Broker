@@ -22,6 +22,7 @@ if __name__ == '__main__':
         'QPD|IHE PDQ Query|111069|@PID.5.2^SMITH||||\r' \
         'RCP|I|'
 
-    res = send_message('localhost', 6661 , msg)
+    res = send_message('localhost', 2575 , msg)
+    print(res)
     print("Received response: ")
     print(repr(res))
