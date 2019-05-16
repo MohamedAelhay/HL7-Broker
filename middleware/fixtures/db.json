@@ -1,7 +1,9 @@
 [{
         "model": "middleware.device",
         "fields": {
-            "name": "ultrasonic",
+            "name": "ultraSonic",
+            "ip": "127.0.0.1",
+            "port": "8000",
             "version": "2.5"
         }
     },
