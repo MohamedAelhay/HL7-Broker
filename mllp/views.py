@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from hl7apy.mllp import AbstractHandler, AbstractErrorHandler, UnsupportedMessageType
 from hl7apy.parser import parse_message
+from hl7apy.core import Message
 
 # Create your views here.
 
@@ -12,6 +13,12 @@ class PDQHandler(AbstractHandler):
 
         res = Message('RSP_K21')
         # Populate the Message
+        res.msh = "MSH|^~\&|HOSPMPI|HOSP|CLINREG|WESTCLIN|199912121135-0600||RSP^K21^RSP_K21|1|D|2.5|\r"
+        res.msa = "MSA|AA|111069|\r"
+        res.qak = "QAK|111069|OK|Q21^Get Person Demographics^HL7nnn|1|\r"
+        res.qpd = "QPD|Q21^Get Person Demographics^HL7nnn|111069|112234^^^GOOD HEALTH HOSPITAL|^^^ GOOD HEALTH HOSPITAL~^^^SOUTH LAB|\r"
+        res.pid = "PID|||112234^^^GOOD HEALTH HOSPITAL~98223^^^SOUTH LAB||Everyman^Adam||19600614|M||C|2101 Webster # 106^^Oakland^CA^94612|\r"
+        res.qri = "QRI|100|"
 
         return res.to_mllp()
 
