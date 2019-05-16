@@ -8,4 +8,3 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         server = MLLPServer('localhost', 2575, handlers())
         server.serve_forever()
-        
