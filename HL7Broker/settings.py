@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'middleware',
 
+=======
+    'mllp',
+>>>>>>> 646c4d53c83117c810ae3ce4ed7b63487750b7f6
 ]
 
 MIDDLEWARE = [
