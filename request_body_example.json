@@ -1,0 +1,28 @@
+{
+
+    "meta_data": {
+
+        "te": "ADT",
+        "scope": "A01",
+        "device": "device_primary_key" 
+    },
+
+    "data": {
+
+        "patient": {
+            "first_name": "xxxx",
+            "last_name": "xxxx",
+            "date_of_birth": "1999-11-11",
+            "home_phone_number": "012345678",
+            "address": "xxxx"
+        },
+
+        "visit": {
+            "visit_id": "1",
+            "preadmit_number": "1234",
+            "consulting_doctor_first_name": "xxxx",
+            "consulting_doctor_last_name": "xxxx"
+
+        }
+    }
+}
