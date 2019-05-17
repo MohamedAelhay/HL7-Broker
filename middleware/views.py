@@ -6,6 +6,7 @@ from rest_framework.parsers import JSONParser
 from middleware.models import Device, TriggerEvent, Scope, Segment, Field
 from middleware.serializers import DeviceSerializer
 from hl7parser.director import call_hl7_director
+from mllp.client import send_message
 
 
 @api_view(['GET'])
@@ -22,7 +23,11 @@ def device_details(request, pk):
 def parse_request(request):
     data = JSONParser().parse(request)
     if is_request_valid(data):
+        device= Device.objects.get(pk=data["meta_data"]["device"])
         print(call_hl7_director(data).children)
+        # res = send_message(device.ip, int(device.port), call_hl7_director(data))
+
+        # print(res)
         return Response(data, status=status.HTTP_200_OK)
     else:
         return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)  
