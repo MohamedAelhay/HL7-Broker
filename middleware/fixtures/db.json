@@ -33,7 +33,7 @@
         "fields": {
             "code": "MSH",
             "name": "message_header",
-            "scope": 1
+            "scope": 2
         }
     },
     {
@@ -109,22 +109,8 @@
     }, {
         "model": "middleware.field",
         "fields": {
-            "code": "1",
-            "name": "patient_id",
-            "segment": 2
-        }
-    }, {
-        "model": "middleware.field",
-        "fields": {
             "code": "7",
             "name": "date_of_birth",
-            "segment": 2
-        }
-    }, {
-        "model": "middleware.field",
-        "fields": {
-            "code": "8",
-            "name": "gender",
             "segment": 2
         }
     }, {
