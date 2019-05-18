@@ -1,6 +1,6 @@
 from hl7apy.core import Message, Segment
 from hl7parser.converter import Hl7FormatConverter
-from hl7parser.PidCreator import PidCreator
+from hl7parser.SegmentCreator import SegmentCreator
 
 
 class MessageCreator:
@@ -16,7 +16,7 @@ class MessageCreator:
         return self
 
     def create_pid_segment(self, segment_data_dict):
-        pid = PidCreator().create_segment("PID", segment_data_dict)
+        pid = SegmentCreator().create_segment("PID", segment_data_dict)
         self.__message.add(pid)
         return self
 

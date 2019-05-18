@@ -3,15 +3,15 @@ from hl7parser.ISegment import ISegment
 from hl7parser.FieldsDataType import *
 
 
-class PidCreator(ISegment):
+class SegmentCreator(ISegment):
 
-    def create_segment(self, pid_segment, segment_data_dict):
-        pid = Segment("PID")
+    def create_segment(self, segment_name, segment_data_dict):
+        segment = Segment(segment_name)
 
         for field in segment_data_dict:
-            pid.add_field(field)
+            segment.add_field(field)
 
-        for field in pid.children:
+        for field in segment.children:
             if field.datatype == "CX":
                 CxCreator.CxCreator().create_field(field)
             if field.datatype == "XPN":
@@ -32,4 +32,4 @@ class PidCreator(ISegment):
                 XtnCreator.XtnCreator().create_field(field)
             if field.datatype == "NM":
                 NmCreator.NmCreator().create_field(field)
-        return pid
+        return segment
