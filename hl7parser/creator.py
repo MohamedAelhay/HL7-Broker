@@ -1,5 +1,6 @@
 from hl7apy.core import Message, Segment
 from hl7parser.converter import Hl7FormatConverter
+from hl7parser.PidCreator import PidCreator
 
 
 class MessageCreator:
@@ -14,12 +15,8 @@ class MessageCreator:
         self.__message.msh.msh_9.msh_9_3 = self.__prepared_data[0]['te']+'_'+self.__prepared_data[0]['scope']
         return self
 
-    def creat_pid_segment(self):
-        pid = Segment('PID')
-        pid.pid_5.pid_5_1 = self.__prepared_data[1]['last_name']
-        pid.pid_5.pid_5_2 = self.__prepared_data[1]['first_name']
-        pid.pid_7 = Hl7FormatConverter.get_hl7_date_format(self.__prepared_data[1]['date_of_birth'])
-        pid.pid_11 = self.__prepared_data[1]['address']
+    def create_pid_segment(self, segment_data_dict):
+        pid = PidCreator().create_segment("PID", segment_data_dict)
         self.__message.add(pid)
         return self
 

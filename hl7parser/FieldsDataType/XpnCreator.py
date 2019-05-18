@@ -1,4 +1,4 @@
-from hl7parser.IField import IField
+from hl7parser.FieldsDataType.IField import IField
 
 
 class XpnCreator(IField):
