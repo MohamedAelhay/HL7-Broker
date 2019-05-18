@@ -126,19 +126,19 @@ class MessagePreparer:
         self.__data_list = []
         self.__message_dict = message_dict
 
-    def __get_data_from_dict_key(self, message_dict, main_key):
+    def get_data_from_dict_key(self, message_dict, main_key):
         for key in message_dict.keys():
             if key == main_key:
                 return message_dict[key]
 
-    def __get_data_from_data_key(self, second_level_key):
-        return self.__get_data_from_dict_key(
-            self.__get_data_from_dict_key(self.__message_dict, 'data'), second_level_key
+    def get_data_from_data_key(self, second_level_key):
+        return self.get_data_from_dict_key(
+            self.get_data_from_dict_key(self.__message_dict, 'data'), second_level_key
         )
 
     def get_data_from_third_level_key(self, second_level_key, third_level_key):
-        return self.__get_data_from_dict_key(
-            self.__get_data_from_data_key(second_level_key), third_level_key
+        return self.get_data_from_dict_key(
+            self.get_data_from_data_key(second_level_key), third_level_key
         )
 
     def __add_dictionaries_to_list(self):
@@ -148,17 +148,13 @@ class MessagePreparer:
         return self.__data_list
 
     def get_message_header_data(self):
-        return self.__get_data_from_dict_key(self.__message_dict, 'meta_data')
+        return self.get_data_from_dict_key(self.__message_dict, 'meta_data')
 
     def get_patient_data(self):
-        return self.__get_data_from_data_key('patient')
+        return self.get_data_from_data_key('patient')
 
     def get_visit_data(self):
-        return self.__get_data_from_data_key('visit')
+        return self.get_data_from_data_key('visit')
 
     def get_array_of_data_dictionaries(self):
         return self.__add_dictionaries_to_list()
-
-
-first_json = MessagePreparer(msg_dict)
-print(first_json.get_patient_data())

@@ -1,5 +1,4 @@
-from hl7apy.core import Message, Segment
-from hl7parser.converter import Hl7FormatConverter
+from hl7apy.core import Segment
 from hl7parser.ISegment import ISegment
 from hl7parser.FieldsDataType import *
 
@@ -8,9 +7,10 @@ class PidCreator(ISegment):
 
     def create_segment(self, pid_segment, segment_data_dict):
         pid = Segment("PID")
+
         for field in segment_data_dict:
             pid.add_field(field)
-        print(pid.children)
+
         for field in pid.children:
             if field.datatype == "CX":
                 CxCreator.CxCreator().create_field(field)

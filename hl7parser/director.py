@@ -1,6 +1,6 @@
 from hl7parser.creator import MessageCreator
 from hl7parser.preparer import MessagePreparer
-
+from hl7parser.DataFiller import DataFiller
 msg_dict = {
 
     "meta_data": {
@@ -125,9 +125,12 @@ msg_dict = {
 def call_hl7_director(message_dict):
 
     first_json = MessagePreparer(message_dict)
-    print(first_json.get_array_of_data_dictionaries())
+    data_filler = DataFiller()
     message_creator = MessageCreator(first_json.get_array_of_data_dictionaries(), '2.5')
     message_creator.create_msh_segment().create_pid_segment(first_json.get_patient_data())
+    data_filler.fill_segment(message_creator.get_hl7_message().pid, first_json)
     return message_creator.get_hl7_message()
 
-print(call_hl7_director(msg_dict).pid.children[0].children)
+print(call_hl7_director(msg_dict).pid.children)
+for segments in call_hl7_director(msg_dict).children:
+    print(segments.value)
