@@ -3,7 +3,7 @@ from hl7parser.converter import Hl7FormatConverter
 
 
 class MessageCreator:
-    def __init__(self, prepared_data=None , version=None):
+    def __init__(self, prepared_data=None, version=None):
         self.__prepared_data = prepared_data
         self.__message = Message(self.__prepared_data[0]['te']+'_'+self.__prepared_data[0]['scope'], version)
 
