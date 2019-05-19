@@ -25,10 +25,8 @@ def parse_request(request):
     if is_request_valid(data):
         modify_valid_data(data)
         device= Device.objects.get(pk=data["meta_data"]["device"])
-        print(call_hl7_director(data).children)
         res = send_message(device.ip, int(device.port), call_hl7_director(data))
 
-        # print(res)
         return Response(res, status=status.HTTP_200_OK)
     else:
         return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)  
