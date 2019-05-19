@@ -4,25 +4,85 @@
 
         "te": "ADT",
         "scope": "A01",
-        "device": "device_primary_key" 
+        "device": "device_primary_key"
     },
 
     "data": {
 
         "patient": {
-            "first_name": "xxxx",
-            "last_name": "xxxx",
-            "date_of_birth": "1999-11-11",
-            "home_phone_number": "012345678",
-            "address": "xxxx"
-        },
+            "PATIENT_ID": {
+                "NAME_VALIDITY_RANGE":"xxxx",
+                "ID_NUMBER": "123",
+                "CHECK_DIGIT": "123",
+                "CHECK_DIGIT_SCHEME": "123",
+                "ASSIGNING_AUTHORITY": "xxxxx",
+                "IDENTIFIER_TYPE_CODE": "134",
+                "ASSIGNING_FACILITY": "xxxxx",
+                "EFFECTIVE_DATE": "10-10-1995",
+                "EXPIRATION_DATE": "11/11/1999",
+                "ASSIGNING_JURISDICTION": "xxxxx",
+                "ASSIGNING_AGENCY_OR_DEPARTMENT": "xxxxx"
+            },
+            "PATIENT_NAME": {
+                "FAMILY_NAME": "ay 7aga1",
+                "GIVEN_NAME": "ay 7aga2",
+                "SECOND_AND_FURTHER_GIVEN_NAMES_OR_INITIALS_THEREOF": "ay 7aga3",
+                "SUFFIX_E_G_JR_OR_III": "ay 7aga4",
+                "PREFIX_E_G_DR": "ay 7aga5",
+                "DEGREE_E_G_MD": "ay 7aga6",
+                "NAME_TYPE_CODE": "ay 7aga7",
+                "NAME_REPRESENTATION_CODE": "ay 7aga8",
+                "NAME_CONTEXT": "ay 7aga9",
+                "NAME_ASSEMBLY_ORDER": "ay 7aga10",
+                "EFFECTIVE_DATE": "19940213",
+                "EXPIRATION_DATE": "19940213",
+                "PROFESSIONAL_SUFFIX": "ay 7aga12"
+            },
+            "DATE_TIME_OF_BIRTH": {
+                "TIME": "11/11/1999",
+                "DEGREE_OF_PRECISION": "31"
+            },
+            "PATIENT_ADDRESS": {
+                "STREET_ADDRESS": "address",
+                "OTHER_DESIGNATION": "address2",
+                "CITY": "address3",
+                "STATE_OR_PROVINCE": "address2",
+                "ZIP_OR_POSTAL_CODE": "address4",
+                "COUNTRY": "address5",
+                "ADDRESS_TYPE": "address6",
+                "OTHER_GEOGRAPHIC_DESIGNATION": "address7",
+                "COUNTY_PARISH_CODE": "address8",
+                "CENSUS_TRACT": "address9",
+                "ADDRESS_REPRESENTATION_CODE": "address10",
+                "EFFECTIVE_DATE": "11/11/1999",
+                "EXPIRATION_DATE": "11/11/1999"
+            },
+            "DRIVER_S_LICENSE_NUMBER_PATIENT": {
+                "LICENSE_NUMBER": "DRIVER_S_LICENSE 1",
+                "ISSUING_STATE_PROVINCE_COUNTRY": "DRIVER_S_LICENSE 2",
+                "EXPIRATION_DATE": "11/11/1999"
+            }
+            },
 
-        "visit": {
-            "visit_id": "1",
-            "preadmit_number": "1234",
-            "consulting_doctor_first_name": "xxxx",
-            "consulting_doctor_last_name": "xxxx"
+            "visit": {
+                "ASSIGNED_PATIENT_LOCATION":{
+                    "POINT_OF_CARE":"xxxx", 
+                    "ROOM":"xxxxxx", 
+                    "BED":"xxxxx", 
+                    "FACILITY":"xxxxx"
+                },
+                "PREADMIT_NUMBER": {
+                    "ID_NUMBER":"123"
+                },
+                "ATTENDING_DOCTOR":{
+                    "FAMILY_NAME":"xxxxx",
+                    "GIVEN_NAME":"xxxxx"
+                },
+                "REFERRING_DOCTOR": {
+                    "FAMILY_NAME":"xxxxx",
+                    "GIVEN_NAME":"xxxxx"
+                }
 
+            }
         }
     }
-}

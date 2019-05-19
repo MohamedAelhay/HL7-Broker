@@ -1,9 +1,10 @@
 from hl7apy.core import Message, Segment
 from hl7parser.converter import Hl7FormatConverter
+from hl7parser.SegmentCreator import SegmentCreator
 
 
 class MessageCreator:
-    def __init__(self, prepared_data=None , version=None):
+    def __init__(self, prepared_data=None, version=None):
         self.__prepared_data = prepared_data
         self.__message = Message(self.__prepared_data[0]['te']+'_'+self.__prepared_data[0]['scope'], version)
 
@@ -14,21 +15,13 @@ class MessageCreator:
         self.__message.msh.msh_9.msh_9_3 = self.__prepared_data[0]['te']+'_'+self.__prepared_data[0]['scope']
         return self
 
-    def creat_pid_segment(self):
-        pid = Segment('PID')
-        pid.pid_5.pid_5_1 = self.__prepared_data[1]['last_name']
-        pid.pid_5.pid_5_2 = self.__prepared_data[1]['first_name']
-        pid.pid_7 = Hl7FormatConverter.get_hl7_date_format(self.__prepared_data[1]['date_of_birth'])
-        pid.pid_11 = self.__prepared_data[1]['address']
+    def create_pid_segment(self, segment_data_dict):
+        pid = SegmentCreator().create_segment("PID", segment_data_dict)
         self.__message.add(pid)
         return self
 
-    def create_pv1_segment(self):
-        pv1 = Segment('PV1')
-        pv1.pv1_1 = self.__prepared_data[2]['visit_id']
-        pv1.pv1_5 = self.__prepared_data[2]['preadmit_number']
-        pv1.pv1_9.pv1_9_1 = self.__prepared_data[2]['consulting_doctor_last_name']
-        pv1.pv1_9.pv1_9_2 = self.__prepared_data[2]['consulting_doctor_first_name']
+    def create_pv1_segment(self, segment_data_dict):
+        pv1 = SegmentCreator().create_segment("PV1", segment_data_dict)
         self.__message.add(pv1)
         return self
 

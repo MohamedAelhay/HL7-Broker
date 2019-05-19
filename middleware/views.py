@@ -7,7 +7,7 @@ from middleware.models import Device, TriggerEvent, Scope, Segment, Field
 from middleware.serializers import DeviceSerializer
 from hl7parser.director import call_hl7_director
 from mllp.client import send_message
-
+import datetime
 
 @api_view(['GET'])
 def device_details(request, pk):
@@ -23,6 +23,7 @@ def device_details(request, pk):
 def parse_request(request):
     data = JSONParser().parse(request)
     if is_request_valid(data):
+        modify_valid_data(data)
         device= Device.objects.get(pk=data["meta_data"]["device"])
         print(call_hl7_director(data).children)
         res = send_message(device.ip, int(device.port), call_hl7_director(data))
@@ -59,3 +60,37 @@ def is_capability_valid(data):
                 if field.name not in data["data"][segment.name]:
                     return False
     return True
+
+def modify_valid_data(data):
+    data =  delete_components(data)
+    data = modify_date(data)
+    return data
+
+def delete_components(data):
+    components_to_delete = ["NAME_VALIDITY_RANGE", "ADDRESS_VALIDITY_RANGE"]
+    for segment in data["data"]:
+        for field in data["data"][segment]:
+            if type(data["data"][segment][field]) is dict:
+                for element in components_to_delete:
+                    data["data"][segment][field].pop(element , None)
+    return data
+
+def modify_date(data):
+    components_to_modify = ["EXPIRATION_DATE", "EFFECTIVE_DATE", "TIME"]
+    for segment in data["data"]:
+        for field in data["data"][segment]:
+            if type(data["data"][segment][field]) is dict:
+                for element in components_to_modify:
+                    if element in  data["data"][segment][field].keys():
+                        date = guess_date(data["data"][segment][field][element])
+                        data["data"][segment][field][element] =  date.strftime("%Y%m%d")
+                
+    return data
+
+def guess_date(string):
+    for fmt in ["%d/%m/%Y", "%Y/%m/%d", "%d-%m-%Y", "%Y-%m-%d", "%Y%m%d"]:
+        try:
+            return datetime.datetime.strptime(string, fmt).date()
+        except ValueError:
+            continue
+    raise ValueError(string)
