@@ -32,4 +32,12 @@ class SegmentCreator(ISegment):
                 XtnCreator.XtnCreator().create_field(field)
             if field.datatype == "NM":
                 NmCreator.NmCreator().create_field(field)
+            if field.datatype == "DLD":
+                DldCreator.DldCreator().create_field(field)
+            if field.datatype == "XCN":
+                XcnCreator.XcnCreator().create_field(field)
+            if field.datatype == "PL":
+                PlCreator.PlCreator().create_field(field)
+            if field.datatype == "FC":
+                FcCreator.FcCreator().create_field(field)
         return segment

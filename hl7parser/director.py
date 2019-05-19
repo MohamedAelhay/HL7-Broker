@@ -1,6 +1,6 @@
 from hl7parser.creator import MessageCreator
 from hl7parser.preparer import MessagePreparer
-from hl7parser.DataFiller import DataFiller
+from hl7parser.DataFillers.DataFiller import DataFiller
 msg_dict = {
 
     "meta_data": {
@@ -113,9 +113,24 @@ msg_dict = {
           },
 
           "BIRTH_ORDER": "BIRTH_ORDER 1"
+        },
 
-
-
+        "visit": {
+          "SET_ID_PV1": "10101",
+          "PATIENT_CLASS": "7alambo7a",
+          "ASSIGNED_PATIENT_LOCATION": {
+            "POINT_OF_CARE": "ASSIGNED_PATIENT_LOCATION 1",
+            "ROOM": "ASSIGNED_PATIENT_LOCATION 2",
+            "BED": "ASSIGNED_PATIENT_LOCATION 3",
+            "FACILITY": "ASSIGNED_PATIENT_LOCATION 4",
+            "LOCATION_STATUS": "ASSIGNED_PATIENT_LOCATION 5",
+            "PERSON_LOCATION_TYPE": "ASSIGNED_PATIENT_LOCATION 6",
+            "BUILDING": "ASSIGNED_PATIENT_LOCATION 7",
+            "FLOOR": "ASSIGNED_PATIENT_LOCATION 8",
+            "LOCATION_DESCRIPTION": "ASSIGNED_PATIENT_LOCATION 9",
+            "COMPREHENSIVE_LOCATION_IDENTIFIER": "ASSIGNED_PATIENT_LOCATION 10",
+            "ASSIGNING_AUTHORITY_FOR_LOCATION": "ASSIGNED_PATIENT_LOCATION 11"
+          }
         }
 
     }
@@ -127,10 +142,13 @@ def call_hl7_director(message_dict):
     first_json = MessagePreparer(message_dict)
     data_filler = DataFiller()
     message_creator = MessageCreator(first_json.get_array_of_data_dictionaries(), '2.5')
-    message_creator.create_msh_segment().create_pid_segment(first_json.get_patient_data())
+    message_creator.create_msh_segment().create_pid_segment(first_json.get_patient_data())\
+      .create_pv1_segment(first_json.get_visit_data())
     data_filler.fill_segment(message_creator.get_hl7_message().pid, first_json)
+    data_filler.fill_segment(message_creator.get_hl7_message().pv1, first_json)
     return message_creator.get_hl7_message()
 
-print(call_hl7_director(msg_dict).pid.children)
+
+print(call_hl7_director(msg_dict).pv1.children)
 for segments in call_hl7_director(msg_dict).children:
     print(segments.value)
