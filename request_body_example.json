@@ -65,22 +65,80 @@
             },
 
             "visit": {
-                "ASSIGNED_PATIENT_LOCATION":{
-                    "POINT_OF_CARE":"xxxx", 
-                    "ROOM":"xxxxxx", 
-                    "BED":"xxxxx", 
-                    "FACILITY":"xxxxx"
+                "ASSIGNED_PATIENT_LOCATION": {
+                    "POINT_OF_CARE": "ASSIGNED_PATIENT_LOCATION 1",
+                    "ROOM": "ASSIGNED_PATIENT_LOCATION 2",
+                    "BED": "ASSIGNED_PATIENT_LOCATION 3",
+                    "FACILITY": "ASSIGNED_PATIENT_LOCATION 4",
+                    "LOCATION_STATUS": "ASSIGNED_PATIENT_LOCATION 5",
+                    "PERSON_LOCATION_TYPE": "ASSIGNED_PATIENT_LOCATION 6",
+                    "BUILDING": "ASSIGNED_PATIENT_LOCATION 7",
+                    "FLOOR": "ASSIGNED_PATIENT_LOCATION 8",
+                    "LOCATION_DESCRIPTION": "ASSIGNED_PATIENT_LOCATION 9",
+                    "COMPREHENSIVE_LOCATION_IDENTIFIER": "ASSIGNED_PATIENT_LOCATION 10",
+                    "ASSIGNING_AUTHORITY_FOR_LOCATION": "ASSIGNED_PATIENT_LOCATION 11"
                 },
                 "PREADMIT_NUMBER": {
-                    "ID_NUMBER":"123"
+                    "ID_NUMBER":"123",
+                    "CHECK_DIGIT":"123",
+                    "CHECK_DIGIT_SCHEME":"123",
+                    "ASSIGNING_AUTHORITY":"xxxxx",
+                    "IDENTIFIER_TYPE_CODE":"134",
+                    "ASSIGNING_FACILITY":"xxxxx",
+                    "EFFECTIVE_DATE":"10-10-1995",
+                    "EXPIRATION_DATE":"11/11/1999",
+                    "ASSIGNING_JURISDICTION":"xxxxx",
+                    "ASSIGNING_AGENCY_OR_DEPARTMENT":"xxxxx"
                 },
                 "ATTENDING_DOCTOR":{
+                    "ID_NUMBER":"123",
                     "FAMILY_NAME":"xxxxx",
-                    "GIVEN_NAME":"xxxxx"
+                    "GIVEN_NAME":"xxxxx",
+                    "SECOND_AND_FURTHER_GIVEN_NAMES_OR_INITIALS_THEREOF":"ay 7aga3", 
+                    "SUFFIX_E_G_JR_OR_III":"ay 7aga4", 
+                    "PREFIX_E_G_DR":"ay 7aga5", 
+                    "DEGREE_E_G_MD":"ay 7aga6", 
+                    "SOURCE_TABLE":"xxxxx", 
+                    "ASSIGNING_AUTHORITY":"xxxxx", 
+                    "NAME_TYPE_CODE":"ay 7aga7", 
+                    "IDENTIFIER_CHECK_DIGIT":"xxx", 
+                    "CHECK_DIGIT_SCHEME":"123", 
+                    "IDENTIFIER_TYPE_CODE":"134", 
+                    "ASSIGNING_FACILITY":"xxxxx", 
+                    "NAME_REPRESENTATION_CODE":"ay 7aga8", 
+                    "NAME_CONTEXT":"ay 7aga9", 
+                    "NAME_VALIDITY_RANGE":"xxxx", 
+                    "NAME_ASSEMBLY_ORDER":"ay 7aga10", 
+                    "EFFECTIVE_DATE":"10-10-1995", 
+                    "EXPIRATION_DATE":"11/11/1999", 
+                    "PROFESSIONAL_SUFFIX":"ay 7aga12", 
+                    "ASSIGNING_JURISDICTION":"xxxxx", 
+                    "ASSIGNING_AGENCY_OR_DEPARTMENT":"xxxxx"
                 },
                 "REFERRING_DOCTOR": {
+                    "ID_NUMBER":"123",
                     "FAMILY_NAME":"xxxxx",
-                    "GIVEN_NAME":"xxxxx"
+                    "GIVEN_NAME":"xxxxx",
+                    "SECOND_AND_FURTHER_GIVEN_NAMES_OR_INITIALS_THEREOF":"ay 7aga3", 
+                    "SUFFIX_E_G_JR_OR_III":"ay 7aga4", 
+                    "PREFIX_E_G_DR":"ay 7aga5", 
+                    "DEGREE_E_G_MD":"ay 7aga6", 
+                    "SOURCE_TABLE":"xxxxx", 
+                    "ASSIGNING_AUTHORITY":"xxxxx", 
+                    "NAME_TYPE_CODE":"ay 7aga7", 
+                    "IDENTIFIER_CHECK_DIGIT":"xxx", 
+                    "CHECK_DIGIT_SCHEME":"123", 
+                    "IDENTIFIER_TYPE_CODE":"134", 
+                    "ASSIGNING_FACILITY":"xxxxx", 
+                    "NAME_REPRESENTATION_CODE":"ay 7aga8", 
+                    "NAME_CONTEXT":"ay 7aga9", 
+                    "NAME_VALIDITY_RANGE":"xxxx", 
+                    "NAME_ASSEMBLY_ORDER":"ay 7aga10", 
+                    "EFFECTIVE_DATE":"10-10-1995", 
+                    "EXPIRATION_DATE":"11/11/1999", 
+                    "PROFESSIONAL_SUFFIX":"ay 7aga12", 
+                    "ASSIGNING_JURISDICTION":"xxxxx", 
+                    "ASSIGNING_AGENCY_OR_DEPARTMENT":"xxxxx"
                 }
 
             }
