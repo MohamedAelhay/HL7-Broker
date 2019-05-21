@@ -3,7 +3,7 @@
         "fields": {
             "name": "ultraSonic",
             "ip": "127.0.0.1",
-            "port": "8000",
+            "port": "8888",
             "version": "2.5"
         }
     },
@@ -33,7 +33,7 @@
         "fields": {
             "code": "MSH",
             "name": "message_header",
-            "scope": 1
+            "scope": 2
         }
     },
     {
@@ -109,78 +109,64 @@
     }, {
         "model": "middleware.field",
         "fields": {
-            "code": "1",
-            "name": "patient_id",
-            "segment": 2
-        }
-    }, {
-        "model": "middleware.field",
-        "fields": {
             "code": "7",
-            "name": "date_of_birth",
-            "segment": 2
-        }
-    }, {
-        "model": "middleware.field",
-        "fields": {
-            "code": "8",
-            "name": "gender",
+            "name": "PATIENT_ID",
             "segment": 2
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "13",
-            "name": "home_phone_number",
+            "name": "PATIENT_NAME",
             "segment": 2
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "5.2",
-            "name": "first_name",
+            "name": "DATE_TIME_OF_BIRTH",
             "segment": 2
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "5.1",
-            "name": "last_name",
+            "name": "PATIENT_ADDRESS",
             "segment": 2
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "11",
-            "name": "address",
+            "name": "DRIVER_S_LICENSE_NUMBER_PATIENT",
             "segment": 2
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "1",
-            "name": "visit_id",
+            "name": "ASSIGNED_PATIENT_LOCATION",
             "segment": 3
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "5",
-            "name": "preadmit_number",
+            "name": "PREADMIT_NUMBER",
             "segment": 3
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "9.2",
-            "name": "consulting_doctor_first_name",
+            "name": "ATTENDING_DOCTOR",
             "segment": 3
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "9.1",
-            "name": "consulting_doctor_last_name",
+            "name": "REFERRING_DOCTOR",
             "segment": 3
         }
     }
