@@ -1,14 +1,20 @@
+from hl7parser.AckMessageCreator import AckMessageCreator
+
 
 class Hl7DictMapper:
 
     def __init__(self):
         self.__hl7_dict = {}
         self.__json_dict = {}
+        self.__ack_message_creator = AckMessageCreator()
 
     def map_hl7_message_to_dict(self, hl7_message):
-        self.create_segments_keys(hl7_message)
-        self.create_json_dict()
-        print(self.__json_dict)
+        try:
+            self.create_segments_keys(hl7_message)
+            self.create_json_dict()
+            return self.__ack_message_creator.create_adt_a01_ack_message().create_msa_acceptance().get_ack_message()
+        except:
+            return self.__ack_message_creator.create_adt_a01_ack_message().create_msa_rejection().get_ack_message()
 
     def create_segments_keys(self, hl7_message):
         for segment in hl7_message.children:
