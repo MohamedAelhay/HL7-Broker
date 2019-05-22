@@ -21,5 +21,9 @@ class AckMessageCreator:
         self.__message.msa.msa_1 = 'AR'
         return self
 
+    def create_msa_error(self):
+        self.__message.msa.msa_1 = 'AE'
+        return self
+
     def get_ack_message(self):
         return self.__message
