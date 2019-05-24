@@ -1,18 +1,19 @@
 from hl7parser.creator import MessageCreator
 from hl7parser.preparer import MessagePreparer
 from hl7parser.DataFillers.DataFiller import DataFiller
+from hl7parser.Hl7DictMapper import Hl7DictMapper
 msg_dict = {
 
-    "meta_data": {
+    "META_DATA": {
 
-        "te": "ADT",
-        "scope": "A01",
-        "device": "ultraSonic"
+        "SCOPE": "ADT",
+        "TE": "A01",
+        "DEVICE": "ultraSonic"
     },
 
-    "data": {
+    "DATA": {
 
-        "patient": {
+        "PATIENT": {
 
           "PATIENT_ID": {
 
@@ -115,7 +116,7 @@ msg_dict = {
           "BIRTH_ORDER": "BIRTH_ORDER 1"
         },
 
-        "visit": {
+        "VISIT": {
           "SET_ID_PV1": "10101",
           "PATIENT_CLASS": "7alambo7a",
           "ASSIGNED_PATIENT_LOCATION": {
@@ -149,6 +150,13 @@ def call_hl7_director(message_dict):
     return message_creator.get_hl7_message()
 
 
-print(call_hl7_director(msg_dict).pv1.children)
-for segments in call_hl7_director(msg_dict).children:
+# print(call_hl7_director(msg_dict))
+# for segments in call_hl7_director(msg_dict).children:
+#     print(segments.value)
+
+
+hl7_mapper = Hl7DictMapper()
+print(hl7_mapper.map_hl7_message_to_dict(call_hl7_director(msg_dict)).value)
+# print(call_hl7_director(hl7_mapper.get_json_dict()))
+for segments in call_hl7_director(hl7_mapper.get_json_dict()).children:
     print(segments.value)
