@@ -32,7 +32,7 @@
         "model": "middleware.segment",
         "fields": {
             "code": "MSH",
-            "name": "message_header",
+            "name": "MESSAGE_HEADER",
             "scope": 2
         }
     },
@@ -40,70 +40,70 @@
         "model": "middleware.segment",
         "fields": {
             "code": "PID",
-            "name": "patient",
+            "name": "PATIENT",
             "scope": 1
         }
     }, {
         "model": "middleware.segment",
         "fields": {
             "code": "PV1",
-            "name": "visit",
+            "name": "VISIT",
             "scope": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "1",
-            "name": "field_seprator",
+            "name": "FIELD_SEPRATOR",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "2",
-            "name": "encoding_characters",
+            "name": "ENCODING_CHARACTERS",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "3",
-            "name": "sending_application",
+            "name": "SENDING_APPLICATION",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "5",
-            "name": "recieving_application",
+            "name": "RECIEVING_APPLICATION",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "7",
-            "name": "datetime_of_messsage",
+            "name": "DATETIME_OF_MESSSAGE",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "9",
-            "name": "message_type",
+            "name": "MESSAGE_TYPE",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "12",
-            "name": "version_id",
+            "name": "VERSION_ID",
             "segment": 1
         }
     }, {
         "model": "middleware.field",
         "fields": {
             "code": "16",
-            "name": "application_acknowledgment_type",
+            "name": "APPLICATION_ACKNOWLEDGMENT_TYPE",
             "segment": 1
         }
     }, {
