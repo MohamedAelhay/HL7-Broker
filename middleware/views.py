@@ -21,13 +21,13 @@ def device_details(request, pk):
 
 @api_view(['POST'])
 def parse_request(request):
-    data = upper_keys(JSONParser().parse(request))
+    data = upper_keys(JSONParser().parse(request))   
     if is_request_valid(data):
         modify_valid_data(data)
         device= Device.objects.get(pk=data["META_DATA"]["DEVICE"])
         res = send_message(device.ip, int(device.port), call_hl7_director(data))
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(res, status=status.HTTP_200_OK)
     else:
         return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)  
 
@@ -45,9 +45,7 @@ def is_device_valid(pk):
     return True
 
 def is_capability_valid(data):
-    device = Device.objects.get(pk=data["META_DATA"]["DEVICE"])
-    te = TriggerEvent.objects.get(device=device, code=data["META_DATA"]["TE"])
-    scope = Scope.objects.get(trigger_event=te, code=data["META_DATA"]["SCOPE"])
+    device, te, scope = request_meta_data(data["META_DATA"])
     segments = Segment.objects.filter(scope=scope)
     for segment in segments:
         if segment.name not in data["DATA"].keys():
@@ -84,6 +82,12 @@ def modify_date(data):
                         data["DATA"][segment][field][element] =  date.strftime("%Y%m%d")
                 
     return data
+
+def request_meta_data(data):
+    device = Device.objects.get(pk=data["DEVICE"])
+    te = TriggerEvent.objects.get(device=device, code=data["TE"])
+    scope = Scope.objects.get(trigger_event=te, code=data["SCOPE"])
+    return device, te, scope
 
 def guess_date(string):
     for fmt in ["%d/%m/%Y", "%Y/%m/%d", "%d-%m-%Y", "%Y-%m-%d", "%Y%m%d"]:
