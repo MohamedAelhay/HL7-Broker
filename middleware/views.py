@@ -7,6 +7,8 @@ from middleware.models import Device, TriggerEvent, Scope, Segment, Field
 from middleware.serializers import DeviceSerializer
 from hl7parser.director import call_hl7_director
 from mllp.client import send_message
+from hl7parser.logger import Logger
+from middleware.models import Client
 import datetime
 
 @api_view(['GET'])
@@ -27,6 +29,13 @@ def parse_request(request):
         device= Device.objects.get(pk=data["META_DATA"]["DEVICE"])
         res = send_message(device.ip, int(device.port), call_hl7_director(data))
 
+        #Get The Client
+
+        client = Client.objects.get(id=1)
+
+        Logger.log(res, client)
+
+
         return Response(res, status=status.HTTP_200_OK)
     else:
         return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)  
@@ -34,6 +43,7 @@ def parse_request(request):
 def is_request_valid(data):
     if all(elem in data["META_DATA"].keys() for elem in ["TE","DEVICE","SCOPE"]):
         if is_device_valid(data["META_DATA"]["DEVICE"]) and is_capability_valid(data):
+
             return True
     return False
 
@@ -45,6 +55,7 @@ def is_device_valid(pk):
     return True
 
 def is_capability_valid(data):
+
     device, te, scope = request_meta_data(data["META_DATA"])
     segments = Segment.objects.filter(scope=scope)
     for segment in segments:
