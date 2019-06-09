@@ -3,9 +3,11 @@ import os
 import sys
 
 import dotenv
+from dotenv import load_dotenv
+load_dotenv()
 
 if __name__ == '__main__':
-    dotenv.read_dotenv()
+    # dotenv.read_dotenv()
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'HL7Broker.settings')
     try:
         from django.core.management import execute_from_command_line
