@@ -150,13 +150,12 @@ def call_hl7_director(message_dict):
     return message_creator.get_hl7_message()
 
 
-# print(call_hl7_director(msg_dict))
-# for segments in call_hl7_director(msg_dict).children:
-#     print(segments.value)
+print(call_hl7_director(msg_dict))
+for segments in call_hl7_director(msg_dict).children:
+    print(segments.value)
 
 
 hl7_mapper = Hl7DictMapper()
-print(hl7_mapper.map_hl7_message_to_dict(call_hl7_director(msg_dict)).value)
-# print(call_hl7_director(hl7_mapper.get_json_dict()))
-for segments in call_hl7_director(hl7_mapper.get_json_dict()).children:
-    print(segments.value)
+hl7_mapper.map_hl7_message_to_dict(call_hl7_director(msg_dict))
+print(hl7_mapper.get_json_dict())
+# print(hl7_mapper.map_hl7_message_to_dict(call_hl7_director(msg_dict)).value)

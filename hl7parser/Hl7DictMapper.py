@@ -14,7 +14,7 @@ class Hl7DictMapper:
             self.create_json_dict()
             return self.__ack_message_creator.create_adt_a01_ack_message().create_msa_acceptance().get_ack_message()
         except:
-            return self.__ack_message_creator.create_adt_a01_ack_message().create_msa_error().get_ack_message()
+            return self.__ack_message_creator.create_adt_a01_ack_message().create_msa_rejection().get_ack_message()
 
     def create_segments_keys(self, hl7_message):
         for segment in hl7_message.children:
