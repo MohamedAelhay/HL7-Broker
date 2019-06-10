@@ -6,7 +6,7 @@ class Client(models.Model):
     ip = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.name)
 
 class Device(models.Model):
     name = models.CharField(max_length=200)
@@ -20,8 +20,7 @@ class Log(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE) # TODO: fk on auth_user
 
     def __str__(self):
-        return self.id,self.client.name
-
+        return '{} {} {}'.format(self.id, ',', self.client.name)
 
 class TriggerEvent(models.Model):
     code = models.CharField(max_length=50)
