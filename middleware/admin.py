@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Log
+from .models import Log,Client
 # Register your models here.
 
-admin.site.register(Log)
+class CustomLog(admin.ModelAdmin):
+    list_display = ('id', 'client', 'response', 'time')
+
+admin.site.register(Log,CustomLog)
