@@ -11,8 +11,8 @@ class Client(models.Model):
     ip = models.CharField(max_length=15 , default='127.0.0.1')
     key = models.CharField(max_length=200)
 
-    def __str__(self):
-        return '{}'.format(self.name)
+    # def __str__(self):
+    #     return '{}'.format(self.name)
 
 class Device(models.Model):
     name = models.CharField(max_length=200)
@@ -25,8 +25,8 @@ class Log(models.Model):
     time = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE) # TODO: fk on auth_user
 
-    def __str__(self):
-        return '{} {} {}'.format(self.id, ',', self.client.name)
+    # def __str__(self):
+    #     return '{} {} {}'.format(self.id, ',', self.client.name)
 
 class TriggerEvent(models.Model):
     code = models.CharField(max_length=50)
