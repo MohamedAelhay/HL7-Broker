@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
+    'django_adminlte',  
+    'django_adminlte_theme',
     'django.contrib.admin',
     'allauth',
     'allauth.account',
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'middleware',
     'mllp',
+    
 ]
 
 MIDDLEWARE = [
