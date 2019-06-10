@@ -5,6 +5,9 @@ class Client(models.Model):
     name = models.CharField(max_length=200)
     ip = models.CharField(max_length=15)
 
+    def __str__(self):
+        return self.id
+
 class Device(models.Model):
     name = models.CharField(max_length=200)
     version = models.FloatField()
@@ -15,6 +18,10 @@ class Log(models.Model):
     response =  models.CharField(max_length=200)
     time = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE) # TODO: fk on auth_user
+
+    def __str__(self):
+        return self.id,self.client.name
+
 
 class TriggerEvent(models.Model):
     code = models.CharField(max_length=50)
