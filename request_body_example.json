@@ -1,7 +1,7 @@
 {
 
     "META_DATA": {
-
+        "BROKER_KEY": "xxxxxxxxxxxxxxxxxxxxxxxxxx",
         "TE": "ADT",
         "SCOPE": "A01",
         "DEVICE": "device_primary_key"
