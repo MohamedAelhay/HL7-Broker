@@ -26,24 +26,20 @@ def parse_request(request):
     data = upper_keys(JSONParser().parse(request))   
     if is_request_valid(data):
         modify_valid_data(data)
-        device= Device.objects.get(pk=data["META_DATA"]["DEVICE"])
-        res = send_message(device.ip, int(device.port), call_hl7_director(data))
-
-        #Get The Client
-
-        client = Client.objects.get(id=1)
-
-        Logger.log(res, client)
-
-
-        return Response(res, status=status.HTTP_200_OK)
+        client = check_key(data)
+        if client:
+            device = Device.objects.get(pk=data["META_DATA"]["DEVICE"])
+            res = send_message(device.ip, int(device.port), call_hl7_director(data))
+            Logger.log(res, client)
+            return Response(res, status=status.HTTP_200_OK)
+        else:
+            return Response("UnAuthorized", status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)  
 
 def is_request_valid(data):
     if all(elem in data["META_DATA"].keys() for elem in ["TE","DEVICE","SCOPE"]):
         if is_device_valid(data["META_DATA"]["DEVICE"]) and is_capability_valid(data):
-
             return True
     return False
 
@@ -115,3 +111,9 @@ def upper_keys(x):
         return dict((k.upper(), upper_keys(v)) for k, v in x.items())
     else:
         return x
+
+def check_key(data):
+    try:
+        return Client.objects.get(key=data["META_DATA"]['BROKER_KEY'])
+    except:
+        return None
