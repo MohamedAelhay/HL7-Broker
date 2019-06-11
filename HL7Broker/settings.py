@@ -14,6 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -66,7 +68,7 @@ ROOT_URLCONF = 'HL7Broker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.normpath(os.path.join(BASE_DIR, 'templates'))],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'client/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,7 +146,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+STATIC_URL = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [STATIC_DIR,]
+
+STATICFILES_DIRS = [
+    STATIC_URL,
+]
+
 
 SITE_ID = 1
 
@@ -157,7 +166,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
 ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/'
-ACCOUNT_LOGIN_REDIRECT_URL = '/profiles/home'
+LOGIN_REDIRECT_URL = '/client/dashboard/'
 
 
 EMAIL_HOST = 'smtp.sendgrid.net'
