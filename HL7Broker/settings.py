@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'middleware',
     'mllp',
+    'memberships'
     
 ]
 
@@ -176,3 +177,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'kirakidakun123@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
