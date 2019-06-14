@@ -61,11 +61,16 @@ def selectMemberShip(request):
 
     print(get_user_subscription(request))
     usage = stripe.UsageRecord.create(
-        quantity=100,
+        quantity=1,
         timestamp=int(time.time()) ,
         subscription_item=get_user_subscription(request).stripe_subscription_item_id,
         action='increment'
     )
+    print(stripe.Invoice.upcoming(customer=request.user.usermembership.stripe_customer_id))
+    print(stripe.Customer.list(limit=3))
+    item = stripe.SubscriptionItem.retrieve("si_FFbu6n9jJNtknL")
+    item.usage_record_summaries(limit=3)
+    #todo usage meter
     #todo subscribe free member when login to get subscribe item id
     #todo use usage record in api call
     membership = Membership.objects.all()
