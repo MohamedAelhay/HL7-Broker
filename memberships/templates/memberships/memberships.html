@@ -16,13 +16,17 @@
                             <h3>{{ member.membership_type }}</h3>
                         </div>
                         <div class="pricing-plans">
-                            <span class="price-value"><i class="fa fa-usd"></i><span>{{ member.price }}$</span></span>
-                            <span class="month">/month</span>
+                            <span class="price-value"><i class="fa fa-usd"></i><span>{{ member.price }}Cent</span></span>
+                            <span class="month"> /call</span>
                         </div>
                         <div class="pricingContent">
                             <ul>
-                                <li><b>{{ member.price }}$</b> Month</li>
+                                <li><b>{{ member.price }} Cent</b> api call</li>
                                 <li><b>{{ member.api_calls_counter }}</b> Api call</li>
+                                {% if member.membership_type == "Free" %}
+                                    <li><b>200 Cent</b> /call  after {{ member.api_calls_counter }}</li>
+                                {% endif %}
+                                <li><b>80 Cent</b> /call  after {{ member.api_calls_counter }}</li>
                             </ul>
                         </div><!-- CONTENT BOX-->
                         <form method="POST" action="{% url 'selectMemberShip' %}">

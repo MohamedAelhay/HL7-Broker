@@ -7,9 +7,10 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 MEMBERSHIP_CHOICES = (
-    ('Free', 'free'),
+    ('Small Business', 'sb'),
     ('Enterprise', 'ent'),
-    ('Professional', 'pro')
+    ('Professional', 'pro'),
+    ('Free', 'free')
 )
 
 
@@ -41,7 +42,24 @@ def post_save_user_membership_create(sender, instance, created, *args, **kwargs)
     if user_membership.stripe_customer_id is None or user_membership.stripe_customer_id == '':
         new_customer_id = stripe.Customer.create(email=instance.email)
         user_membership.stripe_customer_id = new_customer_id['id']
+        free_membership = Membership.objects.get(membership_type='Free')
+        user_membership.stripe_customer_id = new_customer_id['id']
+        user_membership.membership = free_membership
         user_membership.save()
+        subscription = stripe.Subscription.create(
+            customer=new_customer_id['id'],
+            items=[
+                {
+                    "plan": Membership.objects.filter(membership_type='Free').first().stripe_plan_id
+                },
+            ]
+        )
+        sub, created = Subscription.objects.get_or_create(
+            user_membership=user_membership)
+        sub.stripe_subscription_id = subscription.id
+        sub.stripe_subscription_item_id = subscription['items']['data'][0]['id']
+        sub.active = True
+        sub.save()
 
 
 post_save.connect(post_save_user_membership_create, sender=User)
@@ -50,6 +68,7 @@ post_save.connect(post_save_user_membership_create, sender=User)
 class Subscription(models.Model):
     user_membership = models.ForeignKey(UserMembership, on_delete=models.CASCADE)
     stripe_subscription_id = models.CharField(max_length=40)
+    stripe_subscription_item_id = models.CharField(max_length=40, default='')
     active = models.BooleanField(default=True)
 
     def __str__(self):

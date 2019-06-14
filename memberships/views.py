@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import Membership, UserMembership, Subscription
 from django.conf import settings
 import stripe
+import time
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -51,25 +53,30 @@ def post(request):
         # assign to the session
     request.session['selected_membership_type'] = selected_membership.membership_type
 
-
+@login_required
 def selectMemberShip(request):
     if request.method == 'POST':
         post(request)
         return HttpResponseRedirect(reverse('payment'))
 
+    print(get_user_subscription(request))
+    usage = stripe.UsageRecord.create(
+        quantity=100,
+        timestamp=int(time.time()) ,
+        subscription_item=get_user_subscription(request).stripe_subscription_item_id,
+        action='increment'
+    )
+    #todo subscribe free member when login to get subscribe item id
+    #todo use usage record in api call
     membership = Membership.objects.all()
-    call_count = []
-    for member in membership:
-        call_count.append(stripe.Plan.retrieve(member.stripe_plan_id)['transform_usage']['divide_by'])
     current_membership = get_user_membership(request)
     context = {
         'memberships': membership,
-        'call_count': call_count,
         'current_membership': current_membership.membership.membership_type
     }
     return render(request, 'memberships/memberships.html', context=context)
 
-
+@login_required()
 def payment(request):
     user_membership = get_user_membership(request)
     selected_membership = get_selected_membership(request)
@@ -88,7 +95,8 @@ def payment(request):
             )
             return redirect(reverse('update-transactions',
                                     kwargs={
-                                        'subscription_id': subscription.id
+                                        'subscription_id': subscription.id,
+                                        'stripe_subscription_item_id': subscription['items']['data'][0]['id']
                                     }))
         except:
             messages.info(request, "An error has occurred, investigate it in the console")
@@ -99,8 +107,8 @@ def payment(request):
     }
     return render(request, 'memberships/payment.html', context=context)
 
-
-def updateTransactionRecords(request, subscription_id):
+@login_required()
+def updateTransactionRecords(request, subscription_id,stripe_subscription_item_id):
     user_membership = get_user_membership(request)
     selected_membership = get_selected_membership(request)
     user_membership.membership = selected_membership
@@ -109,6 +117,7 @@ def updateTransactionRecords(request, subscription_id):
     sub, created = Subscription.objects.get_or_create(
         user_membership=user_membership)
     sub.stripe_subscription_id = subscription_id
+    sub.stripe_subscription_item_id = stripe_subscription_item_id
     sub.active = True
     sub.save()
 
@@ -116,6 +125,6 @@ def updateTransactionRecords(request, subscription_id):
         del request.session['selected_membership_type']
     except:
         pass
-    # messages.info(request, 'Successfully created {} membership'.format(
-    #     selected_membership))
+    messages.info(request, 'Successfully created {} membership'.format(
+        selected_membership))
     return redirect('/memberships')
