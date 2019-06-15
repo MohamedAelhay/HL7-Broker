@@ -50,8 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'middleware',
     'mllp',
-    'memberships'
-    
+    'memberships',
 ]
 
 MIDDLEWARE = [
@@ -163,7 +162,7 @@ SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400
 ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/'
