@@ -59,15 +59,12 @@ def selectMemberShip(request):
         post(request)
         return HttpResponseRedirect(reverse('payment'))
 
-    print(get_user_subscription(request))
     usage = stripe.UsageRecord.create(
         quantity=1,
         timestamp=int(time.time()) ,
         subscription_item=get_user_subscription(request).stripe_subscription_item_id,
         action='increment'
     )
-    print(stripe.Invoice.upcoming(customer=request.user.usermembership.stripe_customer_id))
-    print(stripe.Customer.list(limit=3))
     item = stripe.SubscriptionItem.retrieve("si_FFbu6n9jJNtknL")
     item.usage_record_summaries(limit=3)
     #todo usage meter
@@ -132,4 +129,4 @@ def updateTransactionRecords(request, subscription_id,stripe_subscription_item_i
         pass
     messages.info(request, 'Successfully created {} membership'.format(
         selected_membership))
-    return redirect('/memberships')
+    return redirect('/client/dashboard')
