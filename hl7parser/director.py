@@ -139,7 +139,6 @@ msg_dict = {
 
 
 def call_hl7_director(message_dict):
-
     first_json = MessagePreparer(message_dict)
     data_filler = DataFiller()
     message_creator = MessageCreator(first_json.get_array_of_data_dictionaries(), '2.5')
@@ -148,14 +147,3 @@ def call_hl7_director(message_dict):
     data_filler.fill_segment(message_creator.get_hl7_message().pid, first_json)
     data_filler.fill_segment(message_creator.get_hl7_message().pv1, first_json)
     return message_creator.get_hl7_message()
-
-
-print(call_hl7_director(msg_dict))
-for segments in call_hl7_director(msg_dict).children:
-    print(segments.value)
-
-
-hl7_mapper = Hl7DictMapper()
-hl7_mapper.map_hl7_message_to_dict(call_hl7_director(msg_dict))
-print(hl7_mapper.get_json_dict())
-# print(hl7_mapper.map_hl7_message_to_dict(call_hl7_director(msg_dict)).value)

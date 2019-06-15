@@ -9,6 +9,7 @@ def send_message(host, port , msg):
         sock.connect((host, port))
         # send the message
         sock.sendall(msg.to_mllp().encode('UTF-8'))
+
         # receive the answer
         received = sock.recv(1024*1024)
         return received

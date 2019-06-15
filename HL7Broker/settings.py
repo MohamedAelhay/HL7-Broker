@@ -34,8 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     
-    'django_adminlte',  
-    'django_adminlte_theme',
+    'jet',  
     'django.contrib.admin',
     'allauth',
     'allauth.account',

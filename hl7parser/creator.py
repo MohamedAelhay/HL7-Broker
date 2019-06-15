@@ -6,13 +6,13 @@ from hl7parser.SegmentCreator import SegmentCreator
 class MessageCreator:
     def __init__(self, prepared_data=None, version=None):
         self.__prepared_data = prepared_data
-        self.__message = Message(self.__prepared_data[0]['SCOPE']+'_'+self.__prepared_data[0]['TE'], version)
+        self.__message = Message(self.__prepared_data[0]['TE']+'_'+self.__prepared_data[0]['SCOPE'], version)
 
     def create_msh_segment(self):
         self.__message.msh.msh_6 = self.__prepared_data[0]['DEVICE']
-        self.__message.msh.msh_9.msh_9_1 = self.__prepared_data[0]['SCOPE']
-        self.__message.msh.msh_9.msh_9_2 = self.__prepared_data[0]['TE']
-        self.__message.msh.msh_9.msh_9_3 = self.__prepared_data[0]['SCOPE']+'_'+self.__prepared_data[0]['TE']
+        self.__message.msh.msh_9.msh_9_1 = self.__prepared_data[0]['TE']
+        self.__message.msh.msh_9.msh_9_2 = self.__prepared_data[0]['SCOPE']
+        self.__message.msh.msh_9.msh_9_3 = self.__prepared_data[0]['TE']+'_'+self.__prepared_data[0]['SCOPE']
         return self
 
     def create_pid_segment(self, segment_data_dict):

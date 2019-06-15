@@ -18,6 +18,7 @@ from django.conf.urls import url, include
 from django.urls import path
 
 urlpatterns = [
+    url('jet/', include('jet.urls', 'jet')),
     path('admin/', admin.site.urls),
     path('api/',include('middleware.urls')),
     url(r'^accounts/', include('allauth.urls')),

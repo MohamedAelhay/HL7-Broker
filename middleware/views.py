@@ -29,8 +29,12 @@ def parse_request(request):
         client = check_key(data)
         if client:
             device = Device.objects.get(pk=data["META_DATA"]["DEVICE"])
+            message = call_hl7_director(data)
+            for segments in message.children:
+                print(segments.value)
             res = send_message(device.ip, int(device.port), call_hl7_director(data))
-            Logger.log(res, client)
+            # Logger.log(res, client)
+            Logger.log("Ok", client)
             return Response(res, status=status.HTTP_200_OK)
         else:
             return Response("UnAuthorized", status=status.HTTP_401_UNAUTHORIZED)
