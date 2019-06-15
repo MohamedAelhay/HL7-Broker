@@ -1,0 +1,53 @@
+{% extends "memberships/base.html" %}
+
+{% load static %}
+{% block main_block %}
+<div class="demo">
+        <div class="container">
+            <div class="row text-center">
+                <h1 class="heading-title">Pricing Table</h1>
+            </div>
+
+            <div class="row">
+                {% for member in memberships %}
+                    <div class="col-md-4 col-sm-6">
+                    <div class="pricingTable yellow">
+                        <div class="pricingTable-header">
+                            <h3>{{ member.membership_type }}</h3>
+                        </div>
+                        <div class="pricing-plans">
+                            <span class="price-value"><i class="fa fa-usd"></i><span>{{ member.price }}Cent</span></span>
+                            <span class="month"> /call</span>
+                        </div>
+                        <div class="pricingContent">
+                            <ul>
+                                <li><b>{{ member.price }} Cent</b> api call</li>
+                                <li><b>{{ member.api_calls_counter }}</b> Api call</li>
+                                {% if member.membership_type == "Free" %}
+                                    <li><b>200 Cent</b> /call  after {{ member.api_calls_counter }}</li>
+                                {% endif %}
+                                <li><b>80 Cent</b> /call  after {{ member.api_calls_counter }}</li>
+                            </ul>
+                        </div><!-- CONTENT BOX-->
+                        <form method="POST" action="{% url 'selectMemberShip' %}">
+                            {% csrf_token %}
+                            {% if  member.membership_type != current_membership %}
+                                <div class="pricingTable-sign-up">
+                                    <button class="btn btn-block">Select</button>
+                                </div>
+                            {% else %}
+                                <span>This is your current membership</span>
+                            {% endif %}
+                            <input type="hidden" name="membership_type" value="{{ member.membership_type }}">
+                        </form>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

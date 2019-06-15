@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/',include('middleware.urls')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^client/', include('client.urls')),
+    url(r'^memberships/', include('memberships.urls'))
 ]
