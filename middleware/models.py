@@ -22,6 +22,7 @@ class Device(models.Model):
 
 class Log(models.Model):
     response =  models.CharField(max_length=200)
+    status = models.CharField(max_length=50, default = "Success")
     time = models.DateTimeField(auto_now_add=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE) # TODO: fk on auth_user
 
