@@ -18,4 +18,5 @@ class Hl7AckSerializer:
         self.__hl7_ack_dict["device"] = self.__device_name
 
     def get_serialized_hl7_ack(self):
+        self.__serialize_ack()
         return self.__hl7_ack_dict
