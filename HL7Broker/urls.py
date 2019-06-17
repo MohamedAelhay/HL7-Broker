@@ -17,7 +17,11 @@ from django.contrib import admin
 from django.conf.urls import url, include
 from django.urls import path
 
+import client.views
+
+
 urlpatterns = [
+    url(r'^$', client.views.index, name= 'landing-page'),
     url('jet/', include('jet.urls', 'jet')),
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
