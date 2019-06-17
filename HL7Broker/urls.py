@@ -19,6 +19,7 @@ from django.urls import path
 
 urlpatterns = [
     url('jet/', include('jet.urls', 'jet')),
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
     path('api/',include('middleware.urls')),
     url(r'^accounts/', include('allauth.urls')),

@@ -9,7 +9,12 @@ from hl7parser.director import call_hl7_director
 from mllp.client import send_message
 from hl7parser.logger import Logger
 from middleware.models import Client
+from hl7parser.hl7_ack_serializer import Hl7AckSerializer
 import datetime
+from memberships.views import usage_counter
+from django.contrib.auth.models import User
+
+
 
 @api_view(['GET'])
 def device_details(request, pk):
@@ -30,12 +35,15 @@ def parse_request(request):
         if client:
             device = Device.objects.get(pk=data["META_DATA"]["DEVICE"])
             message = call_hl7_director(data)
-            for segments in message.children:
-                print(segments.value)
-            res = send_message(device.ip, int(device.port), call_hl7_director(data))
-            
-            # Logger.log(res, client)
-            Logger.log("Ok", client)
+
+            # res = send_message(device.ip, int(device.port), call_hl7_director(data))      
+            res = send_message("192.168.1.12", 2575, call_hl7_director(data))
+
+            user_object = User.objects.filter(client=Client.objects.get(key=data["META_DATA"]['BROKER_KEY'])).first()
+            usage_counter(user_object)
+
+            logData = Hl7AckSerializer(repr(res),device.name).get_serialized_hl7_ack()
+            Logger.log(logData['device'], client, logData['status'])
             return Response(res, status=status.HTTP_200_OK)
         else:
             return Response("UnAuthorized", status=status.HTTP_401_UNAUTHORIZED)
