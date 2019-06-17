@@ -1,26 +1,63 @@
-{% extends "account/layout_card.html" %}
-{% load crispy_forms_tags %}
-{% load i18n %}
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+{% load sass_tags %}
 
-{% block head_title %}{% trans "Register New Account" %}{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% sass_src 'admin/css/signup.scss' %}">
+{{ form.media }}
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-  <h5 class="card-title">
-    {% trans "Register New Account" %}
-  </h5>
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
 
-  <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-  </p>
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
 
-  <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
+<div id="content-main">
+
+
+<form action="{% url 'account_signup' %}" method="post" id="login-form">{% csrf_token %}
+    <div class="form-row">
+    {{ form.email.errors }}
+    {{ form.email.label_tag }} {{ form.email }}
+  </div>
+  <div class="form-row">
+    {{ form.username.errors }}
+    {{ form.username.label_tag }} {{ form.username }}
+  </div>
+  <div class="form-row">
+    {{ form.password1.errors }}
+    {{ form.password1.label_tag }} {{ form.password1 }}
+  </div>
+    <div class="form-row">
+    {{ form.password2.errors }}
+    {{ form.password2.label_tag }} {{ form.password2 }}
+  </div>
     <input type="hidden" name="next" value="{% url 'selectMemberShip' %}"/>
-    <div class="form-actions">
-      <button class="btn btn-primary" type="submit">
-        {% trans "Sign Up" %} &raquo;
-      </button>
-    </div>
-  </form>
 
+    </div>
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="{% trans 'Sign Up' %}">
+  </div>
+</form>
+
+</div>
 {% endblock %}

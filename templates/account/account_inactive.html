@@ -1,11 +1,27 @@
-{% extends "account/base.html" %}
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+{% load sass_tags %}
 
-{% load i18n %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% sass_src 'admin/css/account-inactive.scss' %}">
+{{ form.media }}
+{% endblock %}
 
-{% block head_title %}{% trans "Account Inactive" %}{% endblock %}
+{% block bodyclass %}{{ block.super }}login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-  <h4 class="card-title">{% trans "Account Inactive" %}</h4>
+<div id="content-main">
 
-  <p>{% trans "This account is inactive." %}</p>
+<div class="prow">
+    <p>{% trans 'This account is inactive.' %}</p>
+</div>
+
+</div>
 {% endblock %}

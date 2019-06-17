@@ -1,33 +1,51 @@
-{% extends "account/layout_card.html" %}
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+{% load sass_tags %}
 
-{% load crispy_forms_tags %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% sass_src 'admin/css/signup.scss' %}">
+{{ form.media }}
+{% endblock %}
 
+{% block bodyclass %}{{ block.super }} login{% endblock %}
 
-{% load i18n %}
+{% block usertools %}{% endblock %}
 
-{% block head_title %}{% trans "Account" %}{% endblock %}
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
 
-  <h5 class="card-title">
-    {% trans "E-mail Addresses" %}
-  </h5>
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+
+<div id="content-main">
 
     {% if user.emailaddress_set.all %}
-        <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
+    <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
 
-        <form action="{% url 'account_email' %}" class="email_list" method="post">
-            {% csrf_token %}
-            <fieldset class="blockLabels">
+<form action="{% url 'account_email' %}" method="post" id="login-form">{% csrf_token %}
+    <div class="form-row">
+        {% for emailaddress in user.emailaddress_set.all %}
+            <div class="ctrlHolder form-group">
+                <label for="email_radio_{{ forloop.counter }}"
+                       class="email {% if emailaddress.primary %}primary_email{% endif %}">
 
-                {% for emailaddress in user.emailaddress_set.all %}
-                    <div class="ctrlHolder form-group">
-                        <label for="email_radio_{{ forloop.counter }}"
-                               class="email {% if emailaddress.primary %}primary_email{% endif %}">
-
-                            <input id="email_radio_{{ forloop.counter }}" type="radio" name="email"
-                                   {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{% endif %}
-                                   value="{{ emailaddress.email }}"/>
+                        <input id="email_radio_{{ forloop.counter }}" type="radio" name="email"
+                               {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{% endif %}
+                               value="{{ emailaddress.email }}"/>
 
                             {{ emailaddress.email }}
                             {% if emailaddress.verified %}
@@ -39,18 +57,14 @@
                         </label>
                     </div>
                 {% endfor %}
+              <div class="submit-row">
+                  <label>&nbsp;</label><input type="submit" value="{% trans 'Make Primary' %}" name="action_primary">
+                  <label>&nbsp;</label><input type="submit" value="{% trans 'Re-send Verification' %}" name="action_send">
+                  <label>&nbsp;</label><input type="submit" value="{% trans 'Remove' %}" name="action_remove">
 
-                <div class="buttonHolder">
-                    <button class="btn btn-default secondaryAction" type="submit"
-                            name="action_primary">{% trans 'Make Primary' %}</button>
-                    <button class="btn btn-default secondaryAction" type="submit"
-                            name="action_send">{% trans 'Re-send Verification' %}</button>
-                    <button class="btn btn-default primaryAction" type="submit"
-                            name="action_remove">{% trans 'Remove' %}</button>
-                </div>
-
-            </fieldset>
-        </form>
+              </div>
+  </div>
+</form>
 
     {% else %}
         <p>
@@ -62,15 +76,17 @@
     <hr>
 
     <h3>{% trans "Add email address" %}</h3>
-
-    <form method="post" action="{% url 'account_email' %}" class="add_email">
+    <form method="post" action="{% url 'account_email' %}" >
         {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-primary" name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+      <div class="submit-row">
+          <div class="form-row">
+            {{ form.email.errors }}
+            {{ form.email.label_tag }} {{ form.email }}
+        </div>
+        <label>&nbsp;</label><input type="submit" name="action_add" value="{% trans 'Add Email' %}">
+      </div>
     </form>
-
-{% endblock %}
-
+</div>
 
 {% block extra_body %}
     <script type="text/javascript">
@@ -86,4 +102,5 @@
         }
       })();
     </script>
+{% endblock %}
 {% endblock %}

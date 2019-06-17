@@ -1,16 +1,26 @@
-{% extends "account/layout_card.html" %}
-
-{% load i18n %}
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+{% load sass_tags %}
 {% load account %}
 
-{% block head_title %}{% trans "Confirm Email Address" %}{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% sass_src 'admin/css/email-confirm-received.scss' %}">
+{{ form.media }}
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }}login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
+<div id="content-main">
 
-  <h5 class="card-title">
-    {% trans "Confirm Your Email" %}
-  </h5>
-
+<div class="prow1">
   {% if confirmation %}
 
     {% user_display confirmation.email_address.user as user_display %}
@@ -18,11 +28,11 @@
     <p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that you want to use
       <strong>{{ email }}</strong> with this site.{% endblocktrans %}</p>
 
-    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}" id="login_form">
       {% csrf_token %}
-      <div class="form-actions">
-        <button class="btn btn-primary" type="submit">{% trans 'Confirm' %}</button>
-      </div>
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="{% trans 'Confirm' %}">
+  </div>
     </form>
 
   {% else %}
@@ -32,5 +42,7 @@
     <p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please
       <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
 
-  {% endif %}
+  {% endif %}</div>
+
+</div>
 {% endblock %}

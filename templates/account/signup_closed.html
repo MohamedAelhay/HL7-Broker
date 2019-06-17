@@ -1,13 +1,27 @@
-{% extends "account/layout_card.html" %}
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+{% load sass_tags %}
 
-{% load i18n %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% sass_src 'admin/css/signup-closed.scss' %}">
+{{ form.media }}
+{% endblock %}
 
-{% block head_title %}{% trans "Sign Up Closed" %}{% endblock %}
+{% block bodyclass %}{{ block.super }}login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
-  <h5 class="card-title">
-    {% trans "Sign Up Closed" %}
-  </h5>
+<div id="content-main">
 
-  <p>{% trans "We are sorry, but the sign up is currently closed." %}</p>
+<div class="prow">
+    <p>{% trans 'We are sorry, but the sign up is currently closed.' %}</p>
+</div>
+
+</div>
 {% endblock %}

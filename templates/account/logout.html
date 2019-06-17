@@ -1,26 +1,35 @@
-{% extends "account/layout_card.html" %}
+{% extends "account/base_site.html" %}
+{% load i18n static %}
+{% load sass_tags %}
 
-{% load i18n %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% sass_src 'admin/css/logout.scss' %}">
+{{ form.media }}
+{% endblock %}
 
-{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
+<div id="content-main">
 
-  <h5 class="card-title">
-    {% trans "Sign Out" %}
-  </h5>
+<div class="form-row">
+    <p>{% trans 'Are you sure you want to log out?' %}</p>
+</div>
 
-  <p>{% trans 'Are you sure you want to sign out?' %}</p>
-
-  <form method="post" action="{% url 'account_logout' %}">
-    {% csrf_token %}
-    {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-    {% endif %}
-    <button type="submit" class="btn btn-primary">
-      {% trans 'Sign Out' %}
-    </button>
-  </form>
+<form action="{% url 'account_logout' %}" method="post" id="login-form">{% csrf_token %}
 
 
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="{% trans 'Log Out' %}">
+  </div>
+</form>
+
+</div>
 {% endblock %}

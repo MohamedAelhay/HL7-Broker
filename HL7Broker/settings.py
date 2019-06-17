@@ -50,6 +50,9 @@ INSTALLED_APPS = [
     'middleware',
     'mllp',
     'memberships',
+     'django_extensions',
+    'sass_processor',
+
 ]
 
 MIDDLEWARE = [
@@ -149,9 +152,17 @@ USE_TZ = True
 STATIC_URL = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [STATIC_DIR,]
 
-STATICFILES_DIRS = [
-    STATIC_URL,
+# STATICFILES_DIRS = [
+#     STATIC_URL,
+# ]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
 ]
+
+SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR,'static')
 
 
 SITE_ID = 1
@@ -177,3 +188,8 @@ DEFAULT_FROM_EMAIL = 'kirakidakun123@gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+
+
+ACCOUNT_FORMS = {
+    'login': 'memberships.forms.JetLoginForm',
+}
