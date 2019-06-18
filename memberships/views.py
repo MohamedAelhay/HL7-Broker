@@ -90,7 +90,10 @@ def cancel_subscription(request):
     stripe.Subscription.delete(
         get_user_subscription(request).stripe_subscription_id
     )
-    Membership.objects.filter(get_user_membership(request)).first().delete()
+    get_user_subscription(request).delete()
+    user_member_ship = get_user_membership(request)
+    user_member_ship.membership.membership_type = 'Free'
+    user_member_ship.save()
 
 
 
@@ -103,6 +106,7 @@ def selectMemberShip(request):
     membership = Membership.objects.all()
     if get_user_membership(request) is not None:
         current_membership = get_user_membership(request).membership.membership_type
+        print(current_membership)
     else:
         current_membership = ''
     context = {
