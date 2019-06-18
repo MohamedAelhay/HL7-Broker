@@ -1,0 +1,35 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block content %}
+
+    
+<section class="home-slider owl-carousel">
+    <div class="slider-item" style="background-image: url('{% static 'client/img/slider-2.jpg'%}');">
+      
+      <div class="container">
+        <div class="row slider-text align-items-center">
+          <div class="col-md-7 col-sm-12 element-animate">
+            <h1>Welcome to HL7 Broker</h1>
+            <p></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slider-item" style="background-image: url('{% static 'client/img/slider-1.jpg'%}');">
+      <div class="container">
+        <div class="row slider-text align-items-center">
+          <div class="col-md-7 col-sm-12 element-animate">
+            <h1>Welcome to HL7 Broker</h1>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+  </section>
+  <!-- END slider -->
+
+{% endblock %}

@@ -44,35 +44,53 @@ def post(request):
     )
     if selected_membership_qs.exists():
         selected_membership = selected_membership_qs.first()
-    if user_membership.membership.membership_type == selected_membership:
-        if user_subscription is not None:
-            messages.info(request, """You already have this membership. Your
-                                  next payment is due {}""".format('get this value from stripe'))
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if user_membership is not None:
+        if user_membership.membership.membership_type == selected_membership:
+            if user_subscription is not None:
+                messages.info(request, """You already have this membership. Your
+                                      next payment is due {}""".format('get this value from stripe'))
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         # assign to the session
     request.session['selected_membership_type'] = selected_membership.membership_type
 
-def get_user_memb(user):
+
+def get_user_membership_with_api_key(user):
     user_membership_qs = UserMembership.objects.filter(user=user)
     if user_membership_qs.exists():
         return user_membership_qs.first()
     return None
 
-def get_user_sub(user):
-    user_subscription_qs = Subscription.objects.filter(user_membership=get_user_memb(user))
+
+def get_user_subscription_with_api_key(user):
+    user_subscription_qs = Subscription.objects.filter(user_membership=get_user_membership_with_api_key(user))
     if user_subscription_qs.exists():
         user_subscription = user_subscription_qs.first()
         return user_subscription
     return None
 
-def usage_counter(request):
+
+def usage_counter_with_api_key(user):
     stripe.UsageRecord.create(
         quantity=1,
         timestamp=int(time.time()) ,
-        subscription_item=get_user_sub(request).stripe_subscription_item_id,
+        subscription_item=get_user_subscription_with_api_key(user).stripe_subscription_item_id,
         action='increment'
     )
+
+
+def cancel_subscription_with_api_key(user):
+    stripe.Subscription.delete(
+        get_user_subscription_with_api_key(user).stripe_subscription_id
+    )
+
+
+def cancel_subscription(request):
+    stripe.Subscription.delete(
+        get_user_subscription(request).stripe_subscription_id
+    )
+    Membership.objects.filter(get_user_membership(request)).first().delete()
+
 
 @login_required
 def selectMemberShip(request):
@@ -80,14 +98,17 @@ def selectMemberShip(request):
         post(request)
         return HttpResponseRedirect(reverse('payment'))
 
-        
     membership = Membership.objects.all()
-    current_membership = get_user_membership(request)
+    if get_user_membership(request) is not None:
+        current_membership = get_user_membership(request).membership.membership_type
+    else:
+        current_membership = ''
     context = {
         'memberships': membership,
-        'current_membership': current_membership.membership.membership_type
+        'current_membership': current_membership
     }
     return render(request, 'memberships/memberships.html', context=context)
+
 
 @login_required()
 def payment(request):
@@ -119,6 +140,7 @@ def payment(request):
         'selected_membership': selected_membership
     }
     return render(request, 'memberships/payment.html', context=context)
+
 
 @login_required()
 def updateTransactionRecords(request, subscription_id,stripe_subscription_item_id):

@@ -1,5 +1,5 @@
 {% extends "memberships/base.html" %}
-
+{% load mathfilters %}
 {% load static %}
 {% block main_block %}
 <div class="demo">
@@ -16,12 +16,12 @@
                             <h3>{{ member.membership_type }}</h3>
                         </div>
                         <div class="pricing-plans">
-                            <span class="price-value"><i class="fa fa-usd"></i><span>{{ member.price }}Cent</span></span>
+                            <span class="price-value"><i class="fa fa-usd"></i><span>{{ member.price|div:100 }}$</span></span>
                             <span class="month"> /call</span>
                         </div>
                         <div class="pricingContent">
                             <ul>
-                                <li><b>{{ member.price }} Cent</b> api call</li>
+                                <li><b>{{ member.price|div:100 }} $</b> api call</li>
                                 <li><b>{{ member.api_calls_counter }}</b> Api call</li>
                                 {% if member.membership_type == "Free" %}
                                     <li><b>200 Cent</b> /call  after {{ member.api_calls_counter }}</li>

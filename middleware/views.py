@@ -11,7 +11,7 @@ from hl7parser.logger import Logger
 from middleware.models import Client
 from hl7parser.hl7_ack_serializer import Hl7AckSerializer
 import datetime
-from memberships.views import usage_counter
+from memberships.views import usage_counter_with_api_key
 from django.contrib.auth.models import User
 
 
@@ -40,7 +40,7 @@ def parse_request(request):
             res = send_message("192.168.1.12", 2575, call_hl7_director(data))
 
             user_object = User.objects.filter(client=Client.objects.get(key=data["META_DATA"]['BROKER_KEY'])).first()
-            usage_counter(user_object)
+            usage_counter_with_api_key(user_object)
 
             logData = Hl7AckSerializer(repr(res),device.name).get_serialized_hl7_ack()
             Logger.log(logData['device'], client, logData['status'])
