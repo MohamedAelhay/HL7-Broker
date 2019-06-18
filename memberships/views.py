@@ -86,6 +86,7 @@ def cancel_subscription_with_api_key(user):
 
 
 def cancel_subscription(request):
+    print("hello")
     stripe.Subscription.delete(
         get_user_subscription(request).stripe_subscription_id
     )
@@ -93,6 +94,7 @@ def cancel_subscription(request):
     user_member_ship = get_user_membership(request)
     user_member_ship.membership = Membership.objects.filter(membership_type='Free').first()
     user_member_ship.save()
+
 
 
 @login_required
@@ -167,3 +169,4 @@ def updateTransactionRecords(request, subscription_id,stripe_subscription_item_i
     messages.info(request, 'Successfully created {} membership'.format(
         selected_membership))
     return redirect('/client/dashboard')
+

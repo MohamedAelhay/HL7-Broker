@@ -21,7 +21,7 @@ import client.views
 
 
 urlpatterns = [
-    url(r'^$', client.views.index, name= 'landing-page'),
+    url(r'^$', client.views.landing_page, name= 'landing-page'),
     url('jet/', include('jet.urls', 'jet')),
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
