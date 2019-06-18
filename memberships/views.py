@@ -91,7 +91,7 @@ def cancel_subscription(request):
     )
     get_user_subscription(request).delete()
     user_member_ship = get_user_membership(request)
-    user_member_ship.membership.membership_type = 'Free'
+    user_member_ship.membership = Membership.objects.filter(membership_type='Free').first()
     user_member_ship.save()
 
 
