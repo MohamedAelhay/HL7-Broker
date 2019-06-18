@@ -32,9 +32,11 @@
                         <form method="POST" action="{% url 'selectMemberShip' %}">
                             {% csrf_token %}
                             {% if  member.membership_type != current_membership %}
+                                {% if member.membership_type != 'Free' %}
                                 <div class="pricingTable-sign-up">
                                     <button class="btn btn-block">Select</button>
                                 </div>
+                                {% endif %}
                             {% else %}
                                 <span>This is your current membership</span>
                             {% endif %}
