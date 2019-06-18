@@ -53,26 +53,36 @@ def post(request):
         # assign to the session
     request.session['selected_membership_type'] = selected_membership.membership_type
 
-def get_user_memb(user):
+
+def get_user_membership_with_api_key(user):
     user_membership_qs = UserMembership.objects.filter(user=user)
     if user_membership_qs.exists():
         return user_membership_qs.first()
     return None
 
-def get_user_sub(user):
-    user_subscription_qs = Subscription.objects.filter(user_membership=get_user_memb(user))
+
+def get_user_subscription_with_api_key(user):
+    user_subscription_qs = Subscription.objects.filter(user_membership=get_user_membership_with_api_key(user))
     if user_subscription_qs.exists():
         user_subscription = user_subscription_qs.first()
         return user_subscription
     return None
 
-def usage_counter(request):
+
+def usage_counter_with_api_key(user):
     stripe.UsageRecord.create(
         quantity=1,
         timestamp=int(time.time()) ,
-        subscription_item=get_user_sub(request).stripe_subscription_item_id,
+        subscription_item=get_user_subscription_with_api_key(user).stripe_subscription_item_id,
         action='increment'
     )
+
+
+def cancel_subscription_with_api_key(user):
+    stripe.Subscription.delete(
+        get_user_subscription_with_api_key(user).stripe_subscription_id
+    )
+
 
 @login_required
 def selectMemberShip(request):
@@ -88,6 +98,7 @@ def selectMemberShip(request):
         'current_membership': current_membership.membership.membership_type
     }
     return render(request, 'memberships/memberships.html', context=context)
+
 
 @login_required()
 def payment(request):
@@ -119,6 +130,7 @@ def payment(request):
         'selected_membership': selected_membership
     }
     return render(request, 'memberships/payment.html', context=context)
+
 
 @login_required()
 def updateTransactionRecords(request, subscription_id,stripe_subscription_item_id):
