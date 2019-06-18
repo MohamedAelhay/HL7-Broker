@@ -44,11 +44,12 @@ def post(request):
     )
     if selected_membership_qs.exists():
         selected_membership = selected_membership_qs.first()
-    if user_membership.membership.membership_type == selected_membership:
-        if user_subscription is not None:
-            messages.info(request, """You already have this membership. Your
-                                  next payment is due {}""".format('get this value from stripe'))
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    if user_membership is not None:
+        if user_membership.membership.membership_type == selected_membership:
+            if user_subscription is not None:
+                messages.info(request, """You already have this membership. Your
+                                      next payment is due {}""".format('get this value from stripe'))
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         # assign to the session
     request.session['selected_membership_type'] = selected_membership.membership_type
@@ -84,18 +85,27 @@ def cancel_subscription_with_api_key(user):
     )
 
 
+def cancel_subscription(request):
+    stripe.Subscription.delete(
+        get_user_subscription(request).stripe_subscription_id
+    )
+    Membership.objects.filter(get_user_membership(request)).first().delete()
+
+
 @login_required
 def selectMemberShip(request):
     if request.method == 'POST':
         post(request)
         return HttpResponseRedirect(reverse('payment'))
 
-        
     membership = Membership.objects.all()
-    current_membership = get_user_membership(request)
+    if get_user_membership(request) is not None:
+        current_membership = get_user_membership(request).membership.membership_type
+    else:
+        current_membership = ''
     context = {
         'memberships': membership,
-        'current_membership': current_membership.membership.membership_type
+        'current_membership': current_membership
     }
     return render(request, 'memberships/memberships.html', context=context)
 

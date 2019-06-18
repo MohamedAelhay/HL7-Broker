@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'memberships',
      'django_extensions',
     'sass_processor',
+    'mathfilters'
 
 ]
 

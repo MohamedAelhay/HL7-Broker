@@ -16,7 +16,7 @@ MEMBERSHIP_CHOICES = (
 
 class Membership(models.Model):
     slug = models.SlugField()
-    membership_type = models.CharField(choices=MEMBERSHIP_CHOICES, max_length=30, default='Free')
+    membership_type = models.CharField(choices=MEMBERSHIP_CHOICES, max_length=30, default='Free', null=True)
     price = models.IntegerField(default=15)
     api_calls_counter = models.IntegerField()
     stripe_plan_id = models.CharField(max_length=50)
