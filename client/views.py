@@ -13,7 +13,7 @@ from jet.utils import JsonResponse
 
 # Create your views here.
 
-def index(request):
+def landing_page(request):
     return render(request, 'index.html')
 
 def getUserLogs(request):

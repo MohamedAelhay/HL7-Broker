@@ -86,10 +86,12 @@ def cancel_subscription_with_api_key(user):
 
 
 def cancel_subscription(request):
+    print("hello")
     stripe.Subscription.delete(
         get_user_subscription(request).stripe_subscription_id
     )
     Membership.objects.filter(get_user_membership(request)).first().delete()
+
 
 
 @login_required
@@ -164,7 +166,3 @@ def updateTransactionRecords(request, subscription_id,stripe_subscription_item_i
         selected_membership))
     return redirect('/client/dashboard')
 
-
-def cancel_subscription(request):
-    print("hello")
-    pass

@@ -29,8 +29,8 @@
 {% if not is_popup %}
 {% block breadcrumbs %}
 <div class="breadcrumbs">
-<a href="/client/dashboard/">{% trans 'Home' %}</a>
-  &rsaquo; <a href="/client/dashboard/HL7-Broker">HL7-Broker</a>
+<a href="{% url 'dashboard' %}">{% trans 'Home' %}</a>
+  &rsaquo; <a href="{% url 'HL7-Broker' %}">HL7-Broker</a>
   &rsaquo; {{ cl.opts.verbose_name_plural|capfirst }}
 </div>
 {% endblock %}

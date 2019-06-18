@@ -10,7 +10,7 @@
 {% if not is_popup %}
 {% block breadcrumbs %}
 <div class="breadcrumbs">
-<a href="/client/dashboard">{% trans 'Home' %}</a>
+<a href="{% url 'dashboard' %}">{% trans 'Home' %}</a>
 &rsaquo;
 HL7-Broker
 </div>
@@ -25,11 +25,11 @@ HL7-Broker
     <div class="app-HL7-Broker module">
         <table>
         <caption>
-            <a href="/client/dashboard/HL7-Broker" class="section" title="hl7-broker">HL7-Broker</a>
+            <a href="{% url 'HL7-Broker' %}" class="section" title="hl7-broker">HL7-Broker</a>
         </caption>
             <tr class="model-logs">
                 <th scope="row">Logs</th>
-                <td><a href="/client/dashboard/HL7-Broker/logs" class="viewlink">{% trans 'View' %}</a></td>
+                <td><a href="{% url 'logs' %}" class="viewlink">{% trans 'View' %}</a></td>
             </tr>
         </table>
     </div>

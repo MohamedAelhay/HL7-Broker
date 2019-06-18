@@ -3,7 +3,7 @@
 {% block title %}{{ title }}  {{ site_title|default:_('HL7-Broker') }}{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('HL7') }}</a></h1>
+<h1 id="site-name"><a href="{% url 'dashboard' %}">{{ site_header|default:_('Broker') }}</a></h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
