@@ -1,0 +1,38 @@
+{% extends "dashboard/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static 'admin/css/dashboard.css' %}">{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="/client/dashboard">{% trans 'Home' %}</a>
+&rsaquo;
+HL7-Broker
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}
+
+
+<div id="content-main">
+
+    <div class="app-HL7-Broker module">
+        <table>
+        <caption>
+            <a href="/client/dashboard/HL7-Broker" class="section" title="hl7-broker">HL7-Broker</a>
+        </caption>
+            <tr class="model-logs">
+                <th scope="row">Logs</th>
+                <td><a href="/client/dashboard/HL7-Broker/logs" class="viewlink">{% trans 'View' %}</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

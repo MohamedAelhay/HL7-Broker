@@ -141,3 +141,8 @@ def updateTransactionRecords(request, subscription_id,stripe_subscription_item_i
     messages.info(request, 'Successfully created {} membership'.format(
         selected_membership))
     return redirect('/client/dashboard')
+
+
+def cancel_subscription(request):
+    print("hello")
+    pass

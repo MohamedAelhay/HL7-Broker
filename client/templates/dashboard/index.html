@@ -1,24 +1,374 @@
-{% extends 'dashboard/base.html' %}
+{% extends "dashboard/base_site.html" %}
+{% load i18n admin_static jet_dashboard_tags static %}
+
+{% block html %}{% get_dashboard 'index' as dashboard %}{{ block.super }}{% endblock %}
+
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+    body {
+		font-family: 'Varela Round', sans-serif;
+	}
+	.modal-confirm {
+		color: #636363;
+		width: 400px;
+	}
+	.modal-confirm .modal-content {
+		padding: 20px;
+		border-radius: 5px;
+		border: none;
+        text-align: center;
+		font-size: 14px;
+	}
+	.modal-confirm .modal-header {
+		border-bottom: none;
+        position: relative;
+	}
+	.modal-confirm h4 {
+		text-align: center;
+		font-size: 26px;
+		margin: 30px 0 -10px;
+	}
+	.modal-confirm .close {
+        position: absolute;
+		top: -5px;
+		right: -2px;
+	}
+	.modal-confirm .modal-body {
+		color: #999;
+	}
+	.modal-confirm .modal-footer {
+		border: none;
+		text-align: center;
+		border-radius: 5px;
+		font-size: 13px;
+		padding: 10px 15px 25px;
+	}
+	.modal-confirm .modal-footer a {
+		color: #999;
+	}
+	.modal-confirm .icon-box {
+		width: 80px;
+		height: 80px;
+		margin: 0 auto;
+		border-radius: 50%;
+		z-index: 9;
+		text-align: center;
+		border: 3px solid #f15e5e;
+	}
+	.modal-confirm .icon-box i {
+		color: #f15e5e;
+		font-size: 46px;
+		display: inline-block;
+		margin-top: 13px;
+	}
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+		background: #60c7c1;
+		text-decoration: none;
+		transition: all 0.4s;
+        line-height: normal;
+		min-width: 120px;
+        border: none;
+		min-height: 40px;
+		border-radius: 3px;
+		margin: 0 5px;
+		outline: none !important;
+    }
+	.modal-confirm .btn-info {
+        background: #c1c1c1;
+    }
+    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+        background: #a8a8a8;
+    }
+    .modal-confirm .btn-danger {
+        background: #f15e5e;
+    }
+    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+        background: #ee3535;
+    }
+	.trigger-btn {
+		display: inline-block;
+		margin: 100px auto;
+	}
+</style>
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
+
+    {% for css in dashboard.media.css %}
+        <link href="{% static css %}" rel="stylesheet" />
+    {% endfor %}
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+
+    {% for js in dashboard.media.js %}
+        <script src="{% static js %}"></script>
+    {% endfor %}
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard jet{% endblock %}
+
+
+{% block breadcrumbs %}
+    {% if not is_popup %}
+        <div class="breadcrumbs"></div>
+    {% endif %}
+
+{% endblock %}
 
 {% block content %}
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Client</th>
-            <th scope="col">Response</th>
-            <th scope="col">Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {%for log in logs%}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{log.client.ip}}</td>
-            <td>{{log.response}}</td>
-            <td>{{log.time}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+
+<div class="dashboard-container columns_3 cf">
+
+        <div class="dashboard-column-wrapper">
+            <div class="dashboard-column first">
+
+
+
+
+<div class="dashboard-item" data-module-id="1">
+    <div class="dashboard-item-header">
+
+
+        <span class="dashboard-item-header-title">
+
+
+
+                Quick links
+
+        </span>
+        <div class="cf"></div>
+    </div>
+
+    <div class="dashboard-item-content">
+
+
+
+
+
+
+        <div class="padding center">
+            <ul class="inline">
+
+                    <li>
+                        <a href="/" class="nowrap">Return to site</a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'account_change_password' %}" class="nowrap">Change password</a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'account_logout' %}" class="nowrap">Log out</a>
+                    </li>
+
+            </ul>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<div class="dashboard-item collapsible deletable draggable" data-module-id="4">
+    <div class="dashboard-item-header">
+
+            <span class="dashboard-item-header-drag icon-grid"></span>
+
+        <span class="dashboard-item-header-title">
+
+                <a href="#" class="dashboard-item-collapse"><span class="dashboard-item-header-collapse-button icon-arrow-down"></span></a>
+                <a href="#" class="dashboard-item-collapse"><span class="dashboard-item-header-collapse-button icon-arrow-up"></span></a>
+
+
+
+                BROKER KEY
+
+        </span>
+        <div class="cf"></div>
+    </div>
+
+    <div class="dashboard-item-content">
+
+
+<ul>
+
+        <li>
+            {{ broker_key }}
+        </li>
+
+</ul>
+
+
+    </div>
+</div>
+
+            </div>
+        </div>
+
+        <div class="dashboard-column-wrapper">
+            <div class="dashboard-column">
+
+
+<div class="dashboard-item collapsible deletable draggable" data-module-id="2">
+    <div class="dashboard-item-header">
+
+            <span class="dashboard-item-header-drag icon-grid"></span>
+
+
+        <span class="dashboard-item-header-title">
+
+                <a href="#" class="dashboard-item-collapse"><span class="dashboard-item-header-collapse-button icon-arrow-down"></span></a>
+                <a href="#" class="dashboard-item-collapse"><span class="dashboard-item-header-collapse-button icon-arrow-up"></span></a>
+
+                Applications
+
+        </span>
+        <div class="cf"></div>
+    </div>
+
+    <div class="dashboard-item-content">
+
+
+
+
+<ul>
+
+        <li class="contrast">
+
+                <a href="{% url 'HL7-Broker' %}" title="Models in the HL7-Broker">HL7-Broker</a>
+        </li>
+
+            <li>
+                    <a href="{% url 'logs' %}">Logs</a>
+            </li>
+
+</ul>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+        <div class="dashboard-column-wrapper">
+            <div class="dashboard-column">
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="dashboard-item collapsible deletable draggable" data-module-id="3">
+    <div class="dashboard-item-header">
+
+            <span class="dashboard-item-header-drag icon-grid"></span>
+
+        <span class="dashboard-item-header-title">
+
+                <a href="#" class="dashboard-item-collapse"><span class="dashboard-item-header-collapse-button icon-arrow-down"></span></a>
+                <a href="#" class="dashboard-item-collapse"><span class="dashboard-item-header-collapse-button icon-arrow-up"></span></a>
+
+
+
+                Subscription
+
+        </span>
+        <div class="cf"></div>
+    </div>
+
+    <div class="dashboard-item-content">
+
+
+
+
+<ul>
+
+        <li class="contrast">
+
+                <a title="Subscription">Plan</a>
+
+        </li>
+
+            <li>
+                    <a>{{ plan_name }}</a>
+
+            </li>
+        <li class="contrast">
+
+                <a title="Price Per Request">Price Per Request</a>
+
+        </li>
+
+            <li>
+                    <a>{{ plan_price }}</a>
+
+            </li>
+            <li class="contrast">
+
+                <a title="Remaining Requests">Remaining Requests</a>
+
+        </li>
+
+            <li>
+                    <a>TODO</a>
+
+            </li>
+            <li class="contrast">
+
+                <a title="Cancel Subscription">Cancel Subscription</a>
+
+        </li>
+
+            <li>
+                    <a href="{% url 'client_cancel_subscription' %}" title="Cancel" >Cancel</a>
+            </li>
+</ul>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+</div>
+
+
 {% endblock %}
