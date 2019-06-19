@@ -95,7 +95,7 @@ def cancel_subscription_with_api_key(user):
 def cancel_subscription(request):
     if get_user_membership(request).membership.membership_type == 'Unsubscribed':
         messages.info(request, "You are not subscribed to any plan !!")
-        return
+        return redirect('/client/dashboard')
 
     stripe.Subscription.delete(
         get_user_subscription(request).stripe_subscription_id
@@ -104,6 +104,8 @@ def cancel_subscription(request):
     user_member_ship = get_user_membership(request)
     user_member_ship.membership = Membership.objects.filter(membership_type='Unsubscribed').first()
     user_member_ship.save()
+
+    return redirect('/client/dashboard')
 
 
 

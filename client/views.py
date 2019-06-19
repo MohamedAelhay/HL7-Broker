@@ -1,5 +1,6 @@
 from django.contrib.admin import AdminSite
 from django.contrib.admin.options import BaseModelAdmin, ModelAdmin
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render
 from django.template.response import TemplateResponse
@@ -58,15 +59,17 @@ def remove_bookmark_view(request):
 
     return JsonResponse(result)
 
-
+@login_required
 def index(request):
     broker_key = get_broker_key(request.user)
     plan_name = get_plan_name(request.user)
     plan_price = get_plan_price(request.user)
+    remaining_calls = get_remaining_calls(request.user)
     context = {
         'broker_key' : broker_key,
         'plan_name': plan_name,
         'plan_price' : plan_price,
+        'remaining_calls': remaining_calls,
     }
     return render(request,'dashboard/index.html' , context=context)
 
@@ -79,13 +82,17 @@ def get_plan_name(user):
 
 def get_plan_price(user):
     return user.usermembership.membership.price
+
+def get_remaining_calls(user):
+    return user.usermembership.remaining_api_calls
+@login_required
 def app_index(request):
     context = {
         'app_list' : True,
     }
     return TemplateResponse(request,  'dashboard/app_index.html' , context=context)
 
-
+@login_required
 def changelist(request):
     admin_alternative = AdminAlternative(model=Log , admin_site=AdminSite())
     context = admin_alternative.change_list_view(request).context_data
@@ -115,9 +122,11 @@ def get_logs_to_display(logs , cl):
             results.append(result)
     return results
 
-
+@login_required
 def cancel_subscription(request):
     return TemplateResponse(request , 'dashboard/delete_confirmation.html')
+
+
 
 class AdminAlternative(CustomLog):
 

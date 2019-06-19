@@ -5,7 +5,7 @@
 
 {% block extrastyle %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/dashboard.css' %}" />
 
     {% for css in dashboard.media.css %}
         <link href="{% static css %}" rel="stylesheet" />
@@ -245,10 +245,11 @@
         </li>
 
             <li>
-                    <a>TODO</a>
+                    <a>{{ remaining_calls }}</a>
 
             </li>
-            <li class="contrast">
+        {% if plane_name == Unsubscribed %}
+                <li class="contrast">
 
                 <a title="Cancel Subscription">Cancel Subscription</a>
 
@@ -257,6 +258,18 @@
             <li>
                     <a href="{% url 'client_cancel_subscription' %}" title="Cancel" >Cancel</a>
             </li>
+        {% else %}
+                <li class="contrast">
+
+                <a title="ReSubscribe">ReSubscribe</a>
+
+        </li>
+
+            <li>
+                    <a href="{% url 'selectMemberShip' %}" title="subscribe" >Subscribe</a>
+            </li>
+        {% endif %}
+
 </ul>
 
 
