@@ -7,7 +7,7 @@ import stripe
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 MEMBERSHIP_CHOICES = (
-    ('Small Business', 'sb'),
+    ('Unsubscribed', 'non'),
     ('Enterprise', 'ent'),
     ('Professional', 'pro'),
     ('Free', 'free')
@@ -29,6 +29,7 @@ class UserMembership(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=40)
     membership = models.ForeignKey(Membership, on_delete=models.SET_NULL, null=True)
+    remaining_api_calls = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username
