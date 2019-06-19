@@ -3,14 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+{# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
 <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">#}
     <meta charset="utf-8">
     <script src="https://js.stripe.com/v3/"></script>
+    <link rel="icon" href="{% static 'client/img/hl7_logo.png' %}">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300, 400, 700" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'client/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'client/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'client/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'client/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'client/css/jquery.timepicker.css' %}">
+
+    <link rel="stylesheet" href="{% static 'client/fonts/ionicons/css/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'client/fonts/fontawesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'client/fonts/flaticon/font/flaticon.css' %}">
+
     <link rel="stylesheet" href= "{% static 'membership/style.css'  %}">
+
 </head>
 <body>
+
+<header role="banner">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'landing-page' %}">
+              <img src="{% static 'client/img/hl7_logo.png' %}" style="width: 100px;">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarsExample05">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'landing-page' %}">Home</a>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
 
     <main>
         {% block main_block %}
