@@ -1,5 +1,5 @@
 {% extends "dashboard/base_site.html" %}
-{% load i18n admin_static jet_dashboard_tags static %}
+{% load i18n admin_static jet_dashboard_tags static mathfilters  %}
 
 {% block html %}{% get_dashboard 'index' as dashboard %}{{ block.super }}{% endblock %}
 
@@ -115,7 +115,9 @@
 <ul>
 
         <li>
-            {{ broker_key }}
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Show Key
+            </button>
         </li>
 
 </ul>
@@ -235,7 +237,7 @@
         </li>
 
             <li>
-                    <a>{{ plan_price }}</a>
+                    <a>{{ plan_price|div:100  }}</a>
 
             </li>
             <li class="contrast">
@@ -248,18 +250,8 @@
                     <a>{{ remaining_calls }}</a>
 
             </li>
-        {% if plane_name == Unsubscribed %}
-                <li class="contrast">
-
-                <a title="Cancel Subscription">Cancel Subscription</a>
-
-        </li>
-
-            <li>
-                    <a href="{% url 'client_cancel_subscription' %}" title="Cancel" >Cancel</a>
-            </li>
-        {% else %}
-                <li class="contrast">
+        {% if subscribe  %}
+    <li class="contrast">
 
                 <a title="ReSubscribe">ReSubscribe</a>
 
@@ -268,7 +260,20 @@
             <li>
                     <a href="{% url 'selectMemberShip' %}" title="subscribe" >Subscribe</a>
             </li>
-        {% endif %}
+
+        {% else %}
+                    <li class="contrast">
+
+                <a title="Cancel Subscription">Cancel Subscription</a>
+
+        </li>
+
+            <li>
+                    <a href="{% url 'client_cancel_subscription' %}" title="Cancel" >Cancel</a>
+            </li>
+    {% endif %}
+
+
 
 </ul>
 
@@ -287,6 +292,26 @@
             </div>
         </div>
 
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">HL7-Broker Key</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ broker_key }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 

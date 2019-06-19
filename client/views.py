@@ -65,11 +65,17 @@ def index(request):
     plan_name = get_plan_name(request.user)
     plan_price = get_plan_price(request.user)
     remaining_calls = get_remaining_calls(request.user)
+    if str(plan_name) == "Unsubscribed":
+        subscribe = True
+    else:
+        subscribe = False
+
     context = {
         'broker_key' : broker_key,
         'plan_name': plan_name,
-        'plan_price' : plan_price,
+        'plan_price' : int(plan_price),
         'remaining_calls': remaining_calls,
+        'subscribe': subscribe,
     }
     return render(request,'dashboard/index.html' , context=context)
 

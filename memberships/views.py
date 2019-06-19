@@ -117,7 +117,6 @@ def selectMemberShip(request):
         return HttpResponseRedirect(reverse('payment'))
 
     membership = Membership.objects.exclude(membership_type='Unsubscribed')
-    print(membership)
     if get_user_membership(request) is not None:
         current_membership = get_user_membership(request).membership.membership_type
     else:
