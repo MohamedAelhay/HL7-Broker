@@ -71,6 +71,9 @@ def get_user_subscription_with_api_key(user):
 
 
 def usage_counter_with_api_key(user):
+    user_membership = get_user_membership_with_api_key(user)
+    user_membership.remaining_api_calls -= 1
+    user_membership.save()
     stripe.UsageRecord.create(
         quantity=1,
         timestamp=int(time.time()) ,
@@ -78,6 +81,10 @@ def usage_counter_with_api_key(user):
         action='increment'
     )
 
+def usage_counter(request):
+    user_membership = get_user_membership(request)
+    user_membership.remaining_api_calls -= 1
+    user_membership.save()
 
 def cancel_subscription_with_api_key(user):
     stripe.Subscription.delete(
@@ -106,6 +113,7 @@ def selectMemberShip(request):
         post(request)
         return HttpResponseRedirect(reverse('payment'))
 
+    usage_counter(request)
     membership = Membership.objects.exclude(membership_type='Unsubscribed')
     if get_user_membership(request) is not None:
         current_membership = get_user_membership(request).membership.membership_type
@@ -154,9 +162,9 @@ def payment(request):
 def updateTransactionRecords(request, subscription_id,stripe_subscription_item_id):
     user_membership = get_user_membership(request)
     selected_membership = get_selected_membership(request)
+    user_membership.remaining_api_calls = Membership.objects.filter(membership_type=selected_membership).first().api_calls_counter
     user_membership.membership = selected_membership
     user_membership.save()
-
     sub, created = Subscription.objects.get_or_create(
         user_membership=user_membership)
     sub.stripe_subscription_id = subscription_id
