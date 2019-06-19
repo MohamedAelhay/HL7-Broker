@@ -1,5 +1,7 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
+
+from client.views import check_user
 from .models import Membership, UserMembership, Subscription
 from django.conf import settings
 import stripe
@@ -111,6 +113,7 @@ def cancel_subscription(request):
 
 
 @login_required
+@user_passes_test(check_user, login_url='/admin/' , redirect_field_name=None)
 def selectMemberShip(request):
     if request.method == 'POST':
         post(request)
@@ -129,6 +132,7 @@ def selectMemberShip(request):
 
 
 @login_required()
+@user_passes_test(check_user, login_url='/admin/' , redirect_field_name=None)
 def payment(request):
     user_membership = get_user_membership(request)
     selected_membership = get_selected_membership(request)
@@ -161,6 +165,7 @@ def payment(request):
 
 
 @login_required()
+@user_passes_test(check_user, login_url='/admin/' , redirect_field_name=None)
 def updateTransactionRecords(request, subscription_id,stripe_subscription_item_id):
     user_membership = get_user_membership(request)
     selected_membership = get_selected_membership(request)
