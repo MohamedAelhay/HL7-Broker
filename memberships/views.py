@@ -103,6 +103,7 @@ def cancel_subscription(request):
     get_user_subscription(request).delete()
     user_member_ship = get_user_membership(request)
     user_member_ship.membership = Membership.objects.filter(membership_type='Unsubscribed').first()
+    user_member_ship.remaining_api_calls = 0
     user_member_ship.save()
 
 
@@ -114,6 +115,7 @@ def selectMemberShip(request):
         return HttpResponseRedirect(reverse('payment'))
 
     membership = Membership.objects.exclude(membership_type='Unsubscribed')
+    print(membership)
     if get_user_membership(request) is not None:
         current_membership = get_user_membership(request).membership.membership_type
     else:
