@@ -110,12 +110,9 @@ rjsmin==1.1.0
 six==1.12.0
 stripe==2.29.4 
 urllib3==1.24.3
-<<<<<<< HEAD
 ```
 
 
 #### python3 manage.py runserver
+
 Starts the broker server
-=======
-```
->>>>>>> 0fe30a7db93456bd89b3cb0c0e1a22ba1a42a848
