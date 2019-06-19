@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'memberships',
      'django_extensions',
     'sass_processor',
-    'mathfilters'
+    'mathfilters',
+    'rules',
 
 ]
 
@@ -93,6 +94,7 @@ AUTHENTICATION_BACKENDS = (
 
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
+    'rules.permissions.ObjectPermissionBackend',
 
 )
 
