@@ -11,7 +11,8 @@ from hl7parser.logger import Logger
 from middleware.models import Client
 from hl7parser.hl7_ack_serializer import Hl7AckSerializer
 import datetime
-from memberships.views import usage_counter_with_api_key, get_user_subscription_with_api_key
+from memberships.views import usage_counter_with_api_key, get_user_subscription_with_api_key, \
+    get_user_membership_with_api_key
 from django.contrib.auth.models import User
 
 
@@ -30,16 +31,17 @@ def device_details(request, pk):
 def parse_request(request):
     data = upper_keys(JSONParser().parse(request))   
     if is_request_valid(data):
+
         modify_valid_data(data)
         client = check_key(data)
         user_object = User.objects.filter(client=Client.objects.get(key=data["META_DATA"]['BROKER_KEY'])).first()
-        if get_user_subscription_with_api_key(user_object).membership.membership_type == 'Unsubscribed':
-            return HttpResponse('401 Unauthorized', status=401)
+        if get_user_membership_with_api_key(user_object).membership.membership_type == 'Unsubscribed':
+            Logger.log(Device.objects.get(pk=data["META_DATA"]["DEVICE"]).name, check_key(data), "Unauthorized")
+            return Response('401 Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
         if client:
             device = Device.objects.get(pk=data["META_DATA"]["DEVICE"])
-            message = call_hl7_director(data)
-
-            # res = send_message(device.ip, int(device.port), call_hl7_director(data))      
+            call_hl7_director(data)
+            # res = send_message(device.ip, int(device.port), call_hl7_director(data))
             res = send_message("192.168.1.12", 2575, call_hl7_director(data))
 
             usage_counter_with_api_key(user_object)
@@ -48,8 +50,10 @@ def parse_request(request):
             Logger.log(logData['device'], client, logData['status'])
             return Response(res, status=status.HTTP_200_OK)
         else:
-            return Response("UnAuthorized", status=status.HTTP_401_UNAUTHORIZED)
+            Logger.log(Device.objects.get(pk=data["META_DATA"]["DEVICE"]).name, check_key(data), "Unauthorized")
+            return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
     else:
+        Logger.log(Device.objects.get(pk=data["META_DATA"]["DEVICE"]).name, check_key(data), "Rejected")
         return Response("Bad request", status=status.HTTP_400_BAD_REQUEST)  
 
 def is_request_valid(data):
@@ -66,9 +70,11 @@ def is_device_valid(pk):
     return True
 
 def is_capability_valid(data):
-
-    device, te, scope = request_meta_data(data["META_DATA"])
-    segments = Segment.objects.filter(scope=scope)
+    try:
+        device, te, scope = request_meta_data(data["META_DATA"])
+        segments = Segment.objects.filter(scope=scope)
+    except:
+        return False
     for segment in segments:
         if segment.name not in data["DATA"].keys():
             return False
@@ -109,7 +115,7 @@ def request_meta_data(data):
     device = Device.objects.get(pk=data["DEVICE"])
     te = TriggerEvent.objects.get(device=device, code=data["TE"])
     scope = Scope.objects.get(trigger_event=te, code=data["SCOPE"])
-    return device, te, scope
+    return device , te , scope
 
 def guess_date(string):
     for fmt in ["%d/%m/%Y", "%Y/%m/%d", "%d-%m-%Y", "%Y-%m-%d", "%Y%m%d"]:

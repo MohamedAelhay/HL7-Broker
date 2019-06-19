@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 
 from client.views import check_user
@@ -74,7 +75,16 @@ def get_user_subscription_with_api_key(user):
 
 def usage_counter_with_api_key(user):
     user_membership = get_user_membership_with_api_key(user)
-    user_membership.remaining_api_calls -= 1
+    if user_membership.remaining_api_calls == 1:
+        send_mail(
+            "Your Subscription has exceeded it's limit",
+            "Your Subscription has exceeded it's limit Please be warned that u will be charged from now on extra",
+            'Hl7-Broker',
+            [user.email],
+            fail_silently=False,
+        )
+    if user_membership.remaining_api_calls != 0:
+        user_membership.remaining_api_calls -= 1
     user_membership.save()
     stripe.UsageRecord.create(
         quantity=1,

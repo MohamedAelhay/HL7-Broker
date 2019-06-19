@@ -6,11 +6,11 @@ class Hl7AckSerializer:
         self.__hl7_ack_dict = {}
 
     def __check_ack_status(self):
-        if "AA" in self.__ack:
+        if "MSA|AA" in self.__ack:
             return "Acceptance"
-        if "AE" in self.__ack:
+        if "MSA|AE" in self.__ack:
             return "Error"
-        if "AR" in self.__ack:
+        if "MSA|AR" in self.__ack:
             return "Rejection"
 
     def __serialize_ack(self):
