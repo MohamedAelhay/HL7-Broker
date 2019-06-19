@@ -90,11 +90,30 @@ def changelist(request):
     admin_alternative = AdminAlternative(model=Log , admin_site=AdminSite())
     context = admin_alternative.change_list_view(request).context_data
     cl = context["cl"]
-    results = Log.objects.filter(client_id=request.user.client.id)
-    cl.result_list = results
-    cl.result_count = results.count()
-    cl.list_display = ('device' , 'status' , 'time')
+    customize_to_logs(cl , request)
     return TemplateResponse(request,  'dashboard/change_list.html' , context)
+
+
+def customize_to_logs(cl , request):
+    logs = get_client_logs(request)
+    results = get_logs_to_display(logs , cl)
+    cl.result_list = results
+    cl.result_count = len(results)
+    cl.list_display = ('device' , 'status' , 'time')
+
+def get_client_logs(request):
+    results = Log.objects.filter(client_id=request.user.client.id)
+    logs = {}
+    for log in results:
+        logs[log.id] = True
+    return logs
+
+def get_logs_to_display(logs , cl):
+    results = []
+    for result in cl.result_list:
+        if result.id in logs:
+            results.append(result)
+    return results
 
 
 def cancel_subscription(request):

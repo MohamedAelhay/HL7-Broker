@@ -5,7 +5,7 @@ from django.conf import settings
 import stripe
 import time
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -86,12 +86,16 @@ def cancel_subscription_with_api_key(user):
 
 
 def cancel_subscription(request):
+    if get_user_membership(request).membership.membership_type == 'Unsubscribed':
+        messages.info(request, "You are not subscribed to any plan !!")
+        return
+
     stripe.Subscription.delete(
         get_user_subscription(request).stripe_subscription_id
     )
     get_user_subscription(request).delete()
     user_member_ship = get_user_membership(request)
-    user_member_ship.membership.membership_type = 'Free'
+    user_member_ship.membership = Membership.objects.filter(membership_type='Unsubscribed').first()
     user_member_ship.save()
 
 
@@ -102,10 +106,9 @@ def selectMemberShip(request):
         post(request)
         return HttpResponseRedirect(reverse('payment'))
 
-    membership = Membership.objects.all()
+    membership = Membership.objects.exclude(membership_type='Unsubscribed')
     if get_user_membership(request) is not None:
         current_membership = get_user_membership(request).membership.membership_type
-        print(current_membership)
     else:
         current_membership = ''
     context = {
