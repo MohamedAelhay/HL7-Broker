@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST, require_GET
 from jet.models import Bookmark
 from jet.utils import JsonResponse
 from django.contrib.auth.decorators import user_passes_test
+from memberships.models import Membership
 
 
 # Create your views here.
@@ -76,6 +77,8 @@ def index(request):
     plan_name = get_plan_name(request.user)
     plan_price = get_plan_price(request.user)
     remaining_calls = get_remaining_calls(request.user)
+    total_calls = get_total_calls(request.user)
+    due_money =  (int(total_calls) - int(remaining_calls)) * int(plan_price)
     if str(plan_name) == "Unsubscribed":
         subscribe = True
     else:
@@ -87,6 +90,7 @@ def index(request):
         'plan_price': int(plan_price),
         'remaining_calls': remaining_calls,
         'subscribe': subscribe,
+        'due_money': due_money,
     }
     return render(request, 'dashboard/index.html', context=context)
 
@@ -105,7 +109,8 @@ def get_plan_price(user):
 
 def get_remaining_calls(user):
     return user.usermembership.remaining_api_calls
-
+def get_total_calls(user):
+    return user.usermembership.membership.price
 
 @login_required
 @user_passes_test(check_user, login_url='/admin/' , redirect_field_name=None)
