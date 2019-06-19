@@ -1,0 +1,46 @@
+[
+  {
+    "model": "memberships.Membership",
+    "pk": 1,
+    "fields": {
+      "slug": "Free",
+      "membership_type": "Free",
+      "price": 0,
+      "stripe_plan_id": "plan_FFdBEmXmqpWDEG",
+      "api_calls_counter": 100
+    }
+  },
+  {
+    "model": "memberships.Membership",
+    "pk": 2,
+    "fields": {
+      "slug": "ent",
+      "membership_type": "Enterprise",
+      "price": 80,
+      "stripe_plan_id": "plan_FFco8G7gW7JeEV",
+      "api_calls_counter": 10000
+    }
+  },
+  {
+    "model": "memberships.Membership",
+    "pk": 3,
+    "fields": {
+      "slug": "pro",
+      "membership_type": "Professional",
+      "price": 50,
+      "stripe_plan_id": "plan_FFcqkIwT7PpoDV",
+      "api_calls_counter": 50000
+    }
+  },
+  {
+    "model": "memberships.Membership",
+    "pk": 4,
+    "fields": {
+      "slug": "unsubscribed",
+      "membership_type": "Unsubscribed",
+      "price": 0,
+      "stripe_plan_id": "plan_FHRDxDwy16trM1",
+      "api_calls_counter": 0
+    }
+  }
+]

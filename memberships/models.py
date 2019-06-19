@@ -46,6 +46,7 @@ def post_save_user_membership_create(sender, instance, created, *args, **kwargs)
         free_membership = Membership.objects.get(membership_type='Free')
         user_membership.stripe_customer_id = new_customer_id['id']
         user_membership.membership = free_membership
+        user_membership.remaining_api_calls = 100
         user_membership.save()
         subscription = stripe.Subscription.create(
             customer=new_customer_id['id'],
