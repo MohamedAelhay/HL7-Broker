@@ -21,8 +21,6 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 3.9.4
 ```
-As for the database we are using **mysql**.
-
 
 ### System dependencies
 
@@ -63,9 +61,11 @@ Python3 manage.py migrate
 Load initial data as fixtures (db.json):
 ```python3
 Python3 manage.py loaddata db.json
+Python3 manage.py loaddata membership.json
+
 ```
 
-Run these commands fter initializing the Database, 
+Run these commands after initializing the Database, 
 
 ```python3
 pip3 install libsass django-compressor django-sass-processor 
@@ -73,6 +73,7 @@ pip3 install django-extensions
 ```
 
 ## Needed libraries
+```
 certifi==2019.3.9
 chardet==3.0.4
 confusable-homoglyphs==3.2.0 
@@ -109,3 +110,8 @@ rjsmin==1.1.0
 six==1.12.0
 stripe==2.29.4 
 urllib3==1.24.3
+```
+
+
+#### python3 manage.py runserver
+Starts the broker server
